@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1x21i2aki4jg"]
+
+[ext_resource type="Theme" uid="uid://bfsyuidm1ti5h" path="res://themes/debug.tres" id="1_ehehd"]
+[ext_resource type="Script" uid="uid://d23385nrbw06d" path="res://scenes/debug_gui/settings.gd" id="1_j87hc"]
+[ext_resource type="Script" uid="uid://by0sv6822v3bt" path="res://scenes/debug_gui/debug_gui.gd" id="2_v3nbi"]
+[ext_resource type="PackedScene" uid="uid://c4hmsox16ge27" path="res://scenes/debug_gui/toggle_button.tscn" id="3_tvbtf"]
+
+[sub_resource type="GDScript" id="GDScript_tvbtf"]
+script/source = "extends MarginContainer
+"
+
+[node name="DebugGui" type="Control"]
+layout_mode = 3
+anchor_right = 0.25
+anchor_bottom = 0.9925926
+grow_vertical = 2
+theme = ExtResource("1_ehehd")
+script = ExtResource("2_v3nbi")
+metadata/_edit_use_anchors_ = true
+
+[node name="Settings" type="Node" parent="." node_paths=PackedStringArray("info_logs_indicator")]
+script = ExtResource("1_j87hc")
+info_logs_indicator = NodePath("../PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator/ColorRect")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ToggleInfoLogsContainer" type="HBoxContainer" parent="PanelContainer/Buttons"]
+layout_mode = 2
+
+[node name="ToggleInfoLogs" parent="PanelContainer/Buttons/ToggleInfoLogsContainer" instance=ExtResource("3_tvbtf")]
+layout_mode = 2
+
+[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/Buttons/ToggleInfoLogsContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+script = SubResource("GDScript_tvbtf")
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="ToggleInfoLogsStackContainer" type="HBoxContainer" parent="PanelContainer/Buttons"]
+layout_mode = 2
+
+[node name="ToggleInfoLogsStack" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer" instance=ExtResource("3_tvbtf")]
+layout_mode = 2
+text = "Info Logs Stack"
+
+[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+script = SubResource("GDScript_tvbtf")
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer/ToggleIndicator"]
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+
+[node name="DealCard" type="Button" parent="PanelContainer/Buttons"]
+layout_mode = 2
+focus_mode = 0
+text = "Deal Card"
+
+[node name="ShuffleDeck" type="Button" parent="PanelContainer/Buttons"]
+layout_mode = 2
+focus_mode = 0
+text = "Shuffle Deck"
+
+[connection signal="pressed" from="PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleInfoLogs" to="Settings" method="_on_toggle_info_logs_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/ToggleInfoLogsStackContainer/ToggleInfoLogsStack" to="Settings" method="_on_toggle_info_logs_pressed"]
+[connection signal="button_up" from="PanelContainer/Buttons/DealCard" to="." method="_on_deal_card_button_up"]
+[connection signal="button_up" from="PanelContainer/Buttons/ShuffleDeck" to="." method="_on_shuffle_deck_button_up"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlunwjbyi1s1i"]
+
+[ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_d81rb"]
+[ext_resource type="Script" uid="uid://30orf7todo8y" path="res://scenes/card/card_node.gd" id="1_vtcvk"]
+[ext_resource type="Script" uid="uid://dnkivj278gmic" path="res://scenes/card/sprite.gd" id="3_vtcvk"]
+
+[node name="CardNode" type="Node2D"]
+script = ExtResource("1_vtcvk")
+
+[node name="CardSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_d81rb")
+hframes = 13
+vframes = 5
+region_enabled = true
+region_rect = Rect2(0, 0, 624, 320)
+region_filter_clip_enabled = true
+script = ExtResource("3_vtcvk")

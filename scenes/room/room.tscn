@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpn2tclrjqxsl"]
+
+[ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_8xru0"]
+[ext_resource type="Script" uid="uid://yk7vj08xyqr3" path="res://scenes/room/room.gd" id="1_kxljb"]
+
+[node name="Room" type="Node2D"]
+script = ExtResource("1_kxljb")
+
+[node name="RoomCardPlaceholder" type="Sprite2D" parent="."]
+position = Vector2(-96, 0)
+texture = ExtResource("1_8xru0")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)
+
+[node name="RoomCardPlaceholder2" type="Sprite2D" parent="."]
+position = Vector2(-32, 0)
+texture = ExtResource("1_8xru0")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)
+
+[node name="RoomCardPlaceholder3" type="Sprite2D" parent="."]
+position = Vector2(32, 0)
+texture = ExtResource("1_8xru0")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)
+
+[node name="RoomCardPlaceholder4" type="Sprite2D" parent="."]
+position = Vector2(96, 0)
+texture = ExtResource("1_8xru0")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)

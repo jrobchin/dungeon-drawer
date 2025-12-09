@@ -1,0 +1,120 @@
+[gd_scene load_steps=11 format=3 uid="uid://cen2627xwl1p2"]
+
+[ext_resource type="Script" uid="uid://c7raw77dk0ahk" path="res://scenes/deck/deck.gd" id="1_awifi"]
+[ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_uw8ea"]
+[ext_resource type="Script" uid="uid://bcsvppxr15auh" path="res://scenes/deck/card_count.gd" id="3_osv6s"]
+[ext_resource type="Script" uid="uid://bq5684yvl0yyw" path="res://scripts/clickable_area.gd" id="3_u3j8v"]
+[ext_resource type="Theme" uid="uid://cg4eeh61cnmp1" path="res://themes/main.tres" id="4_765a5"]
+
+[sub_resource type="Animation" id="Animation_oncup"]
+resource_name = "show"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardCount:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(24, -0.25, 0, 0.25, 0, 36, -0.2916667, 0.17234421, 0, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_6ar1d"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardCount:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_osv6s"]
+resource_name = "hide"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardCount:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(36, -0.2916667, 0.17234421, 0, 0, 24, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fhsy"]
+_data = {
+&"RESET": SubResource("Animation_6ar1d"),
+&"hide": SubResource("Animation_osv6s"),
+&"show": SubResource("Animation_oncup")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awifi"]
+size = Vector2(48, 72)
+
+[node name="Deck" type="Node2D" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_awifi")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8fhsy")
+}
+
+[node name="CardCount" type="Label" parent="." node_paths=PackedStringArray("deck")]
+offset_left = -24.0
+offset_right = 24.0
+offset_bottom = 12.000015
+theme = ExtResource("4_765a5")
+text = "52"
+horizontal_alignment = 1
+script = ExtResource("3_osv6s")
+deck = NodePath("..")
+
+[node name="DeckCardSprite1" type="Sprite2D" parent="."]
+position = Vector2(0, 4)
+texture = ExtResource("1_uw8ea")
+region_enabled = true
+region_rect = Rect2(96, 256, 48, 64)
+
+[node name="DeckCardSprite2" type="Sprite2D" parent="."]
+position = Vector2(0, 2)
+texture = ExtResource("1_uw8ea")
+region_enabled = true
+region_rect = Rect2(96, 256, 48, 64)
+
+[node name="DeckCardSprite3" type="Sprite2D" parent="."]
+texture = ExtResource("1_uw8ea")
+region_enabled = true
+region_rect = Rect2(96, 256, 48, 64)
+
+[node name="DeckCardSprite4" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+texture = ExtResource("1_uw8ea")
+region_enabled = true
+region_rect = Rect2(96, 256, 48, 64)
+
+[node name="DeckCardSprite5" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("1_uw8ea")
+region_enabled = true
+region_rect = Rect2(96, 256, 48, 64)
+
+[node name="ClickableArea" type="Area2D" parent="."]
+script = ExtResource("3_u3j8v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
+shape = SubResource("RectangleShape2D_awifi")
+
+[connection signal="clicked" from="ClickableArea" to="." method="_on_clickable_area_clicked"]
+[connection signal="input_event" from="ClickableArea" to="ClickableArea" method="_on_input_event"]
+[connection signal="mouse_entered" from="ClickableArea" to="." method="_on_clickable_area_mouse_entered"]
+[connection signal="mouse_exited" from="ClickableArea" to="." method="_on_clickable_area_mouse_exited"]

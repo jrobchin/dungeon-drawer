@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4hmsox16ge27"]
+
+[ext_resource type="Theme" uid="uid://bfsyuidm1ti5h" path="res://themes/debug.tres" id="1_7midk"]
+
+[node name="ToggleButton" type="Button"]
+focus_mode = 0
+theme = ExtResource("1_7midk")
+text = "Info Logs"
