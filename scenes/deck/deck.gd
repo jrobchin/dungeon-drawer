@@ -1,5 +1,6 @@
 @tool
-class_name Deck extends Node2D
+class_name Deck
+extends Node2D
 
 @export var animation_player: AnimationPlayer
 
@@ -8,15 +9,18 @@ var hover: bool = false
 
 signal deck_clicked
 
+
 func _on_clickable_area_clicked() -> void:
 	Debug.print_info("Deck clicked")
 	emit_signal("deck_clicked")
 
+
 func _on_clickable_area_mouse_entered() -> void:
 	Debug.print_info("Mouse exited deck area")
 	hover = true
-	
+
 	animation_player.play("show")
+
 
 func _on_clickable_area_mouse_exited() -> void:
 	Debug.print_info("Mouse exited deck area")
@@ -24,8 +28,10 @@ func _on_clickable_area_mouse_exited() -> void:
 
 	animation_player.play("hide")
 
+
 func _on_debug_gui_shuffle_deck() -> void:
 	shuffle_deck()
+
 
 func _initial_cards() -> Array:
 	return [
@@ -77,15 +83,22 @@ func _initial_cards() -> Array:
 		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.KING),
 	]
 
+
+func initialize():
+	cards = _initial_cards()
+	Debug.print_info("Deck initialized with %d cards." % cards.size())
+
+
 func shuffle_deck() -> void:
 	cards.shuffle()
 	Debug.print_info("Deck shuffled")
+
 
 func draw_card() -> Cards.Card:
 	if cards.size() == 0:
 		Debug.print_info("No more cards in the deck to draw, returning null.")
 		return null
-	
+
 	var drawn_card: Cards.Card = cards.pop_back()
 	Debug.print_info("Drew card: %s of %s" % [Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
 

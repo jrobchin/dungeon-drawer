@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=7 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
 [ext_resource type="PackedScene" uid="uid://cen2627xwl1p2" path="res://scenes/deck/deck.tscn" id="2_iuonh"]
 [ext_resource type="PackedScene" uid="uid://d1x21i2aki4jg" path="res://scenes/debug_gui/debug_gui.tscn" id="3_k2fmo"]
-[ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/room_dealer.gd" id="5_6q06x"]
+[ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
+[ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
 
 [node name="Main" type="Node"]
 metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0]
@@ -29,7 +30,7 @@ position = Vector2(240, 104)
 [node name="CardMarkers" type="Node2D" parent="."]
 
 [node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(64, 104)
+position = Vector2(64, 100)
 
 [node name="RoomCardMarker0" type="Marker2D" parent="CardMarkers"]
 position = Vector2(144, 104)
@@ -61,7 +62,7 @@ texture = ExtResource("1_hyk8p")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="RoomDealer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "deck_marker", "room_card_marker_0", "room_card_marker_1", "room_card_marker_2", "room_card_marker_3")]
+[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "deck_marker", "room_card_marker_0", "room_card_marker_1", "room_card_marker_2", "room_card_marker_3")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
@@ -71,10 +72,16 @@ room_card_marker_1 = NodePath("../CardMarkers/RoomCardMarker1")
 room_card_marker_2 = NodePath("../CardMarkers/RoomCardMarker2")
 room_card_marker_3 = NodePath("../CardMarkers/RoomCardMarker3")
 
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room")]
+script = ExtResource("5_ow5a4")
+deck = NodePath("../Deck")
+room = NodePath("../Room")
+
 [node name="DebugGui" parent="." instance=ExtResource("3_k2fmo")]
 visible = false
 grow_horizontal = 2
 grow_vertical = 0
 
-[connection signal="deal_card" from="DebugGui" to="RoomDealer" method="_on_debug_gui_deal_card"]
+[connection signal="deal_card" from="DebugGui" to="CardManager" method="_on_debug_gui_deal_card"]
+[connection signal="reset" from="DebugGui" to="StateInitializer" method="_on_debug_gui_reset"]
 [connection signal="shuffle_deck" from="DebugGui" to="Deck" method="_on_debug_gui_shuffle_deck"]

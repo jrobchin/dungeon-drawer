@@ -2,8 +2,10 @@ extends Node
 
 ## Print info messages to the console for debugging purposes. Only appears if verbose logging is enabled.
 func print_info(message: String) -> void:
-	if Settings.info_logs_enabled:
-		print_verbose("[INFO]: %s" % message)
+	if not Settings.info_logs_enabled:
+		return
+
+	print_verbose("[INFO]: %s" % message)
 
 	var stack = get_stack()
 	stack.pop_front() # Remove this function from the stack trace

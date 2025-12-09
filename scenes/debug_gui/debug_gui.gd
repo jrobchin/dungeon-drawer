@@ -1,10 +1,13 @@
 extends Control
 
+signal reset
 signal deal_card
 signal shuffle_deck
 
+
 func _ready() -> void:
 	visible = false
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -22,5 +25,5 @@ func _on_shuffle_deck_button_up() -> void:
 	emit_signal("shuffle_deck")
 
 
-func _on_toggle_info_logs_stack_pressed() -> void:
-	pass # Replace with function body.
+func _on_reset_button_up() -> void:
+	emit_signal("reset")
