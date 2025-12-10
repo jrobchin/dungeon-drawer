@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bboubiqc5e838"]
+
+[ext_resource type="Script" uid="uid://dtkxmf6gj47nm" path="res://scenes/card_drop/card_drop_area.gd" id="1_o4810"]
+[ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="2_w06pe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7smn1"]
+size = Vector2(16, 16)
+
+[node name="CardDrop" type="Area2D"]
+script = ExtResource("1_o4810")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7smn1")
+
+[node name="Placeholder" type="Sprite2D" parent="."]
+texture = ExtResource("2_w06pe")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)
+
+[node name="PlaceholderHighlight" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_w06pe")
+region_enabled = true
+region_rect = Rect2(192, 256, 48, 64)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

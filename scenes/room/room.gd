@@ -41,6 +41,7 @@ func initialize() -> void:
 	Debug.print_info("Room initialized.")
 
 
+## Checks if a card can be added.
 func can_add_card() -> bool:
 	var num_cards = _num_cards()
 	Debug.print_info("Number of cards in room: %d" % num_cards)

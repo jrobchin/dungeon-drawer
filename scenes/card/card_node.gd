@@ -2,6 +2,13 @@
 class_name CardNode
 extends Node2D
 
+enum CARD_STATE {
+	DECK,
+	ROOM,
+	WEAPON,
+	DISCARD,
+}
+
 var card: Cards.Card
 
 signal bring_to_front_requested(card_node: CardNode)

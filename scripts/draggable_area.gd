@@ -2,6 +2,7 @@ class_name DraggableArea
 extends Area2D
 
 @export var root_node: Node2D
+@export var draggable: bool = true
 
 signal on_drag_start
 signal on_drag_end
@@ -22,27 +23,18 @@ func _on_input_event(viewport: Node, event: InputEvent, _shape_idx: int) -> void
 		var mouse_event := event as InputEventMouseButton
 
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT:
+			if not draggable:
+				return
+
 			if mouse_event.pressed and not Store.is_dragging and _active_dragger == null:
 				# Check if this is the topmost draggable area at this position
 				if _is_topmost_at_mouse():
-					_active_dragger = self
-					Store.is_dragging = true
-					_drag_start_pos = get_global_mouse_position()
-					if root_node:
-						_node_start_pos = root_node.global_position
+					_start_drag()
 
-					emit_signal("on_drag_start")
-
-					# Capture mouse input
 					viewport.set_input_as_handled()
 
 			elif not mouse_event.pressed and Store.is_dragging and _active_dragger == self:
-				# Stop dragging
-				Store.is_dragging = false
-				_active_dragger = null
-				_check_drop()
-
-				emit_signal("on_drag_end")
+				_end_drag()
 
 				viewport.set_input_as_handled()
 
@@ -58,12 +50,41 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
+func _start_drag() -> void:
+	_active_dragger = self
+	Store.is_dragging = true
+	Store.dragging_node = root_node
+	_drag_start_pos = get_global_mouse_position()
+	_node_start_pos = root_node.global_position
+
+	emit_signal("on_drag_start")
+
+
+func _end_drag() -> void:
+	Store.is_dragging = false
+	Store.dragging_node = null
+	_active_dragger = null
+	_check_drop()
+
+	emit_signal("on_drag_end")
+
+
 func _check_drop() -> void:
+	var dropped_into_area := false
+
 	var areas = get_overlapping_areas()
 	for area in areas:
 		if area is CardDropArea:
+			dropped_into_area = true
 			area.handle_drop(root_node)
 			break
+
+	if dropped_into_area:
+		draggable = false
+	else:
+		# Return to original position
+		if root_node:
+			root_node.global_position = _node_start_pos
 
 
 func _is_topmost_at_mouse() -> bool:

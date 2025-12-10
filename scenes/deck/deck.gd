@@ -115,7 +115,7 @@ func draw_card() -> Cards.Card:
 
 func _update_card_sprites_visibility() -> void:
 	var card_sprites = [deck_card_sprite_0, deck_card_sprite_1, deck_card_sprite_2, deck_card_sprite_3, deck_card_sprite_4]
-	var cards_remaining_percentage = float(cards.size()) / MAX_CARDS
+	var cards_remaining_percentage = float(cards.size()) / MAX_CARDS + 0.2
 
 	for i in range(card_sprites.size() - 1, -1, -1):
 		var threshold = float(i + 1) / card_sprites.size()
