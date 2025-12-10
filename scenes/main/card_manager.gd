@@ -43,7 +43,7 @@ func deal_card() -> bool:
 
 	card_node.global_position = deck_marker.global_position
 	card_holder.add_child(card_node)
-	
+
 	# Connect bring-to-front signal
 	card_node.bring_to_front_requested.connect(_on_card_bring_to_front)
 
@@ -54,12 +54,14 @@ func deal_card() -> bool:
 
 	# Tween from deck to room
 	var target_position: Vector2 = add_card_result.card_position
-	var mid_point: Vector2 = target_position + Vector2(0, -5)
+	var mid_point: Vector2 = target_position + Vector2(0, -2)
 
 	var tween = create_tween()
 
 	tween.tween_property(card_node, "global_position", mid_point, 0.2).set_trans(Tween.TRANS_QUART)
-	tween.tween_property(card_node, "global_position", target_position, 0.2).set_trans(Tween.TRANS_QUART)
+	tween.parallel().tween_property(card_node, "scale", Vector2.ONE * 1.05, 0.3).set_trans(Tween.TRANS_QUART)
+	tween.tween_property(card_node, "global_position", target_position, 0.1).set_trans(Tween.TRANS_QUART)
+	tween.parallel().tween_property(card_node, "scale", Vector2.ONE, 0.1).set_trans(Tween.TRANS_QUART)
 
 	await tween.finished
 
@@ -75,6 +77,7 @@ func deal_card() -> bool:
 
 func _on_debug_gui_reset() -> void:
 	pass # Replace with function body.
+
 
 func _on_card_bring_to_front(card_node: CardNode) -> void:
 	# Move card to end of children list (top of visual stack)

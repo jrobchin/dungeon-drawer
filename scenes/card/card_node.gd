@@ -13,9 +13,13 @@ func _ready() -> void:
 
 
 func _on_draggable_area_on_drag_end() -> void:
-	pass # Replace with function body.
+	var tween := create_tween()
+	tween.tween_property(self, "scale", Vector2.ONE, 0.1)
 
 
 func _on_draggable_area_on_drag_start() -> void:
+	var tween := create_tween()
+	tween.tween_property(self, "scale", Vector2.ONE * 1.05, 0.1)
+
 	# Emit signal for cardholder to handle z-index management
 	emit_signal("bring_to_front_requested", self)
