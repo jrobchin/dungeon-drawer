@@ -21,6 +21,11 @@ Cards="*res://scripts/cards.gd"
 Debug="*res://scripts/debug.gd"
 Settings="*res://scripts/settings.gd"
 
+[custom]
+
+debug/info_logs_enabled=true
+debug/info_logs_stack_enabled=false
+
 [debug]
 
 settings/stdout/verbose_stdout=true

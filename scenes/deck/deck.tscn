@@ -6,21 +6,6 @@
 [ext_resource type="Script" uid="uid://bq5684yvl0yyw" path="res://scripts/clickable_area.gd" id="3_u3j8v"]
 [ext_resource type="Theme" uid="uid://cg4eeh61cnmp1" path="res://themes/main.tres" id="4_765a5"]
 
-[sub_resource type="Animation" id="Animation_oncup"]
-resource_name = "show"
-length = 0.3
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CardCount:position:y")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(24, -0.25, 0, 0.25, 0, 36, -0.2916667, 0.17234421, 0, 0),
-"times": PackedFloat32Array(0, 0.3)
-}
-
 [sub_resource type="Animation" id="Animation_6ar1d"]
 length = 0.001
 tracks/0/type = "bezier"
@@ -47,6 +32,21 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
 "points": PackedFloat32Array(36, -0.2916667, 0.17234421, 0, 0, 24, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_oncup"]
+resource_name = "show"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardCount:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(24, -0.25, 0, 0.25, 0, 36, -0.2916667, 0.17234421, 0, 0),
 "times": PackedFloat32Array(0, 0.3)
 }
 
@@ -79,30 +79,30 @@ horizontal_alignment = 1
 script = ExtResource("3_osv6s")
 deck = NodePath("..")
 
-[node name="DeckCardSprite1" type="Sprite2D" parent="."]
+[node name="DeckCardSprite0" type="Sprite2D" parent="."]
 position = Vector2(0, 4)
 texture = ExtResource("1_uw8ea")
 region_enabled = true
 region_rect = Rect2(96, 256, 48, 64)
 
-[node name="DeckCardSprite2" type="Sprite2D" parent="."]
+[node name="DeckCardSprite1" type="Sprite2D" parent="."]
 position = Vector2(0, 2)
 texture = ExtResource("1_uw8ea")
 region_enabled = true
 region_rect = Rect2(96, 256, 48, 64)
 
-[node name="DeckCardSprite3" type="Sprite2D" parent="."]
+[node name="DeckCardSprite2" type="Sprite2D" parent="."]
 texture = ExtResource("1_uw8ea")
 region_enabled = true
 region_rect = Rect2(96, 256, 48, 64)
 
-[node name="DeckCardSprite4" type="Sprite2D" parent="."]
+[node name="DeckCardSprite3" type="Sprite2D" parent="."]
 position = Vector2(0, -2)
 texture = ExtResource("1_uw8ea")
 region_enabled = true
 region_rect = Rect2(96, 256, 48, 64)
 
-[node name="DeckCardSprite5" type="Sprite2D" parent="."]
+[node name="DeckCardSprite4" type="Sprite2D" parent="."]
 position = Vector2(0, -4)
 texture = ExtResource("1_uw8ea")
 region_enabled = true

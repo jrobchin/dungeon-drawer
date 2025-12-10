@@ -4,6 +4,14 @@ extends Node2D
 
 @export var animation_player: AnimationPlayer
 
+const MAX_CARDS: int = 46
+
+@onready var deck_card_sprite_0: Sprite2D = $DeckCardSprite0
+@onready var deck_card_sprite_1: Sprite2D = $DeckCardSprite1
+@onready var deck_card_sprite_2: Sprite2D = $DeckCardSprite2
+@onready var deck_card_sprite_3: Sprite2D = $DeckCardSprite3
+@onready var deck_card_sprite_4: Sprite2D = $DeckCardSprite4
+
 var cards: Array = _initial_cards()
 var hover: bool = false
 
@@ -86,6 +94,7 @@ func _initial_cards() -> Array:
 
 func initialize():
 	cards = _initial_cards()
+	_update_card_sprites_visibility()
 	Debug.print_info("Deck initialized with %d cards." % cards.size())
 
 
@@ -100,6 +109,16 @@ func draw_card() -> Cards.Card:
 		return null
 
 	var drawn_card: Cards.Card = cards.pop_back()
+	_update_card_sprites_visibility()
 	Debug.print_info("Drew card: %s of %s" % [Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
 
 	return drawn_card
+
+
+func _update_card_sprites_visibility() -> void:
+	var card_sprites = [deck_card_sprite_0, deck_card_sprite_1, deck_card_sprite_2, deck_card_sprite_3, deck_card_sprite_4]
+	var cards_remaining_percentage = float(cards.size()) / MAX_CARDS
+
+	for i in range(card_sprites.size() - 1, -1, -1):
+		var threshold = float(i + 1) / card_sprites.size()
+		card_sprites[i].visible = cards_remaining_percentage > threshold

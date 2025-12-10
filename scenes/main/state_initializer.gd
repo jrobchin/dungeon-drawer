@@ -1,3 +1,4 @@
+class_name StateInitializer
 extends Node
 
 @export var deck: Deck
@@ -5,10 +6,6 @@ extends Node
 
 
 func _on_debug_gui_reset() -> void:
-	initialize_game_state()
-
-
-func _ready() -> void:
 	initialize_game_state()
 
 

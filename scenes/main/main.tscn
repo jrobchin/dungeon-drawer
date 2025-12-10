@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=9 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://d1x21i2aki4jg" path="res://scenes/debug_gui/debug_gui.tscn" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
+[ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
+[ext_resource type="Script" uid="uid://cbud65whcpuh7" path="res://scenes/main/game_state_manager/initialize.gd" id="7_yyfjg"]
 
 [node name="Main" type="Node"]
 metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0]
@@ -76,6 +78,14 @@ room_card_marker_3 = NodePath("../CardMarkers/RoomCardMarker3")
 script = ExtResource("5_ow5a4")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
+
+[node name="GameStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_hujxm")
+initial_state = NodePath("Initialize")
+
+[node name="Initialize" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_initializer")]
+script = ExtResource("7_yyfjg")
+state_initializer = NodePath("../../StateInitializer")
 
 [node name="DebugGui" parent="." instance=ExtResource("3_k2fmo")]
 visible = false
