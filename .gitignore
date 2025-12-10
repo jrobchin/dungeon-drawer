@@ -1,4 +1,9 @@
+# Neovim specific ignores
+.nvim.lua
+
 # Godot 4+ specific ignores
 .godot/
 /android/
-.nvim.lua
+
+# Affinity Photo specific ignores
+*.afphoto~lock~

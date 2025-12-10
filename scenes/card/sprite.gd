@@ -24,6 +24,10 @@ const rank_to_frame_coord_x = {
 	Cards.Rank.KING: 12,
 }
 
+
 func update_sprite(rank: Cards.Rank, suit: Cards.Suit) -> void:
 	frame_coords = Vector2(rank_to_frame_coord_x[rank], suit_to_frame_coord_y[suit])
 
+
+func _on_draggable_area_on_drag_start() -> void:
+	pass # Replace with function body.
