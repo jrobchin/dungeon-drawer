@@ -1,7 +1,24 @@
 class_name Room
 extends Node2D
 
-var cards: Array[CardNode]
+class AddCardResult:
+	var success: bool
+	var card_position: Vector2
+
+
+	func _init(_success: bool = false, _card_position: Vector2 = Vector2.ZERO) -> void:
+		success = _success
+		card_position = _card_position
+
+
+var cards: Array[Cards.Card]
+
+@onready var card_positions: Array[Marker2D] = [
+	$CardPosition0,
+	$CardPosition1,
+	$CardPosition2,
+	$CardPosition3,
+]
 
 
 func _num_cards() -> int:
@@ -20,10 +37,6 @@ func _first_empty_index() -> int:
 
 
 func initialize() -> void:
-	for i in range(cards.size()):
-		if cards[i] != null:
-			cards[i].queue_free()
-
 	cards = [null, null, null, null]
 	Debug.print_info("Room initialized.")
 
@@ -34,11 +47,11 @@ func can_add_card() -> bool:
 	return num_cards < cards.size()
 
 
-## Adds a card to the room. Returns the index where the card was added, or -1 if the room is full.
-func add_card(card_node: CardNode) -> int:
+## Adds a card to the room. Returns the result of adding the card.
+func add_card(card: Cards.Card) -> AddCardResult:
 	if not can_add_card():
-		Debug.print_info("Cannot add card_node, room is full.")
-		return -1
+		Debug.print_info("Cannot add card, room is full.")
+		return null
 
 	var first_empty_index = _first_empty_index()
 	if first_empty_index == -1:
@@ -46,14 +59,12 @@ func add_card(card_node: CardNode) -> int:
 
 	Debug.print_info(
 		"Adding card to room: %s of %s" % [
-			Cards.rank_to_string(card_node.card.rank),
-			Cards.suit_to_string(card_node.card.suit),
+			Cards.rank_to_string(card.rank),
+			Cards.suit_to_string(card.suit),
 		],
 	)
-	cards[first_empty_index] = card_node
-
-	add_child(card_node)
+	cards[first_empty_index] = card
 
 	Debug.print_info("Cards: " + str(cards))
 
-	return first_empty_index
+	return AddCardResult.new(true, card_positions[first_empty_index].global_position)

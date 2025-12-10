@@ -20,12 +20,13 @@ region_rect = Rect2(0, 0, 624, 320)
 region_filter_clip_enabled = true
 script = ExtResource("3_vtcvk")
 
-[node name="DraggableArea" type="Area2D" parent="." node_paths=PackedStringArray("root")]
+[node name="DraggableArea" type="Area2D" parent="." node_paths=PackedStringArray("root_node")]
 script = ExtResource("4_g65cd")
-root = NodePath("..")
+root_node = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DraggableArea"]
 shape = SubResource("RectangleShape2D_vtcvk")
 
 [connection signal="mouse_entered" from="DraggableArea" to="DraggableArea" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="DraggableArea" to="DraggableArea" method="_on_mouse_exited"]
+[connection signal="input_event" from="DraggableArea" to="DraggableArea" method="_on_input_event"]

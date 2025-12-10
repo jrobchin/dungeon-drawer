@@ -38,18 +38,6 @@ position = Vector2(64, 104)
 [node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
 position = Vector2(64, 100)
 
-[node name="RoomCardMarker0" type="Marker2D" parent="CardMarkers"]
-position = Vector2(144, 104)
-
-[node name="RoomCardMarker1" type="Marker2D" parent="CardMarkers"]
-position = Vector2(208, 104)
-
-[node name="RoomCardMarker2" type="Marker2D" parent="CardMarkers"]
-position = Vector2(272, 104)
-
-[node name="RoomCardMarker3" type="Marker2D" parent="CardMarkers"]
-position = Vector2(336, 104)
-
 [node name="WeaponCardMarker" type="Marker2D" parent="CardMarkers"]
 position = Vector2(208, 184)
 
@@ -84,15 +72,14 @@ texture = ExtResource("1_hyk8p")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "deck_marker", "room_card_marker_0", "room_card_marker_1", "room_card_marker_2", "room_card_marker_3", "deck_draw_player", "card_place_player")]
+[node name="CardHolder" type="Node2D" parent="."]
+
+[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "deck_marker", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
+card_holder = NodePath("../CardHolder")
 deck_marker = NodePath("../CardMarkers/DeckMarker")
-room_card_marker_0 = NodePath("../CardMarkers/RoomCardMarker0")
-room_card_marker_1 = NodePath("../CardMarkers/RoomCardMarker1")
-room_card_marker_2 = NodePath("../CardMarkers/RoomCardMarker2")
-room_card_marker_3 = NodePath("../CardMarkers/RoomCardMarker3")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 

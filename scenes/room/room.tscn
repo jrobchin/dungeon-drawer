@@ -6,26 +6,38 @@
 [node name="Room" type="Node2D"]
 script = ExtResource("1_kxljb")
 
-[node name="RoomCardPlaceholder" type="Sprite2D" parent="."]
+[node name="CardPlaceholder0" type="Sprite2D" parent="."]
 position = Vector2(-96, 0)
 texture = ExtResource("1_8xru0")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="RoomCardPlaceholder2" type="Sprite2D" parent="."]
+[node name="CardPlaceholder1" type="Sprite2D" parent="."]
 position = Vector2(-32, 0)
 texture = ExtResource("1_8xru0")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="RoomCardPlaceholder3" type="Sprite2D" parent="."]
+[node name="CardPlaceholder2" type="Sprite2D" parent="."]
 position = Vector2(32, 0)
 texture = ExtResource("1_8xru0")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="RoomCardPlaceholder4" type="Sprite2D" parent="."]
+[node name="CardPlaceholder3" type="Sprite2D" parent="."]
 position = Vector2(96, 0)
 texture = ExtResource("1_8xru0")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
+
+[node name="CardPosition0" type="Marker2D" parent="."]
+position = Vector2(-96, 0)
+
+[node name="CardPosition1" type="Marker2D" parent="."]
+position = Vector2(-32, 0)
+
+[node name="CardPosition2" type="Marker2D" parent="."]
+position = Vector2(32, 0)
+
+[node name="CardPosition3" type="Marker2D" parent="."]
+position = Vector2(96, 0)
