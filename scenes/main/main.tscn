@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=17 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
 [ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
+[ext_resource type="Script" uid="uid://2jg6npxy82g" path="res://scenes/main/card_holder.gd" id="6_hxu8e"]
 [ext_resource type="Script" uid="uid://omv3gwuia3u2" path="res://scenes/main/dealing_room.gd" id="8_b1x3f"]
 [ext_resource type="Script" uid="uid://tl8y644r3vut" path="res://scenes/main/initializing.gd" id="8_ouso4"]
 [ext_resource type="Script" uid="uid://bhr6m8cffm48f" path="res://scenes/main/player_turn.gd" id="10_ouso4"]
@@ -73,6 +74,7 @@ region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
 [node name="CardHolder" type="Node2D" parent="."]
+script = ExtResource("6_hxu8e")
 
 [node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "deck_marker", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
@@ -83,10 +85,11 @@ deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "game_state_machine")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "game_state_machine")]
 script = ExtResource("5_ow5a4")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
+card_holder = NodePath("../CardHolder")
 game_state_machine = NodePath("../GameStateMachine")
 
 [node name="StateManager" type="Node" parent="."]

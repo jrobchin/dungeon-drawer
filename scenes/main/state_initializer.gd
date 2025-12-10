@@ -3,6 +3,7 @@ extends Node
 
 @export var deck: Deck
 @export var room: Room
+@export var card_holder: CardHolder
 @export var game_state_machine: StateMachine
 
 
@@ -15,3 +16,5 @@ func initialize_game_state() -> void:
 	deck.shuffle_deck()
 
 	room.initialize()
+
+	card_holder.initialize()
