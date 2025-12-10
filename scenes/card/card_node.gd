@@ -2,13 +2,6 @@
 class_name CardNode
 extends Node2D
 
-enum CARD_STATE {
-	DECK,
-	ROOM,
-	WEAPON,
-	DISCARD,
-}
-
 var card: Cards.Card
 
 signal bring_to_front_requested(card_node: CardNode)
@@ -28,5 +21,5 @@ func _on_draggable_area_on_drag_start() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE * 1.05, 0.1)
 
-	# Emit signal for cardholder to handle z-index management
+	# Emit signal for card tree to handle z-index management
 	emit_signal("bring_to_front_requested", self)

@@ -1,4 +1,4 @@
-class_name CardHolder
+class_name CardTree
 extends Node2D
 
 func initialize() -> void:

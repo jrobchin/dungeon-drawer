@@ -85,3 +85,13 @@ func _on_card_bring_to_front(card_node: CardNode) -> void:
 	var current_index = card_node.get_index()
 	if current_index != child_count - 1:
 		card_holder.move_child(card_node, child_count - 1)
+
+
+func _on_weapon_card_drop_card_dropped(card_node: CardNode) -> void:
+	if room.is_in_room(card_node.card):
+		room.remove_card(card_node.card)
+
+
+func _on_hand_card_drop_card_dropped(card_node: CardNode) -> void:
+	if room.is_in_room(card_node.card):
+		room.remove_card(card_node.card)

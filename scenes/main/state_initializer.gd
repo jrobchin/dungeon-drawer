@@ -3,7 +3,7 @@ extends Node
 
 @export var deck: Deck
 @export var room: Room
-@export var card_holder: CardHolder
+@export var card_tree: CardTree
 @export var game_state_machine: StateMachine
 
 
@@ -17,4 +17,4 @@ func initialize_game_state() -> void:
 
 	room.initialize()
 
-	card_holder.initialize()
+	card_tree.initialize()

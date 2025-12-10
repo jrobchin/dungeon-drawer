@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=18 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://drnypgxpc5r3p" path="res://assets/sprites.png" id="4_7smn1"]
 [ext_resource type="PackedScene" uid="uid://bboubiqc5e838" path="res://scenes/card_drop/card_drop.tscn" id="4_hxu8e"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
+[ext_resource type="Script" path="res://scenes/card_drop/card_drop.gd" id="5_nvumn"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
 [ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
@@ -59,7 +60,7 @@ region_rect = Rect2(144, 256, 48, 64)
 
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(208, 184)
-script = null
+script = ExtResource("5_nvumn")
 
 [node name="Sprite2D" type="Sprite2D" parent="WeaponCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -68,30 +69,30 @@ region_rect = Rect2(16, 16, 16, 16)
 
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(272, 184)
-script = null
+script = ExtResource("5_nvumn")
 
 [node name="Sprite2D" type="Sprite2D" parent="HandCardDrop"]
 texture = ExtResource("4_7smn1")
 region_enabled = true
 region_rect = Rect2(16, 32, 16, 16)
 
-[node name="CardHolder" type="Node2D" parent="."]
+[node name="CardTree" type="Node2D" parent="."]
 script = ExtResource("6_hxu8e")
 
 [node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "deck_marker", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
-card_holder = NodePath("../CardHolder")
+card_holder = NodePath("../CardTree")
 deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "game_state_machine")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "game_state_machine")]
 script = ExtResource("5_ow5a4")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
-card_holder = NodePath("../CardHolder")
+card_tree = NodePath("../CardTree")
 game_state_machine = NodePath("../GameStateMachine")
 
 [node name="StateManager" type="Node" parent="."]
@@ -127,6 +128,8 @@ volume_db = -12.0
 stream = ExtResource("13_7smn1")
 volume_db = -12.0
 
+[connection signal="card_dropped" from="WeaponCardDrop" to="CardManager" method="_on_weapon_card_drop_card_dropped"]
+[connection signal="card_dropped" from="HandCardDrop" to="CardManager" method="_on_hand_card_drop_card_dropped"]
 [connection signal="deal_card" from="DebugGui" to="CardManager" method="_on_debug_gui_deal_card"]
 [connection signal="reset" from="DebugGui" to="StateInitializer" method="_on_debug_gui_reset"]
 [connection signal="shuffle_deck" from="DebugGui" to="Deck" method="_on_debug_gui_shuffle_deck"]

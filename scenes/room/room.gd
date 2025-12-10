@@ -48,6 +48,10 @@ func can_add_card() -> bool:
 	return num_cards < cards.size()
 
 
+func is_in_room(card: Cards.Card):
+	return cards.find(card) > -1
+
+
 ## Adds a card to the room. Returns the result of adding the card.
 func add_card(card: Cards.Card) -> AddCardResult:
 	if not can_add_card():
@@ -69,3 +73,13 @@ func add_card(card: Cards.Card) -> AddCardResult:
 	Debug.print_info("Cards: " + str(cards))
 
 	return AddCardResult.new(true, card_positions[first_empty_index].global_position)
+
+
+func remove_card(card: Cards.Card) -> bool:
+	var idx = cards.find(card)
+	if idx < 0:
+		return false
+
+	cards[idx] = null
+
+	return true

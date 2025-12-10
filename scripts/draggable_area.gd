@@ -74,7 +74,7 @@ func _check_drop() -> void:
 
 	var areas = get_overlapping_areas()
 	for area in areas:
-		if area is CardDropArea:
+		if area is CardDrop:
 			dropped_into_area = true
 			area.handle_drop(root_node)
 			break
