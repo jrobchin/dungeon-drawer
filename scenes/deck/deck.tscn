@@ -117,6 +117,12 @@ horizontal_alignment = 1
 script = ExtResource("3_osv6s")
 deck = NodePath("..")
 
+[node name="ClickableArea" type="Area2D" parent="."]
+script = ExtResource("3_u3j8v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
+shape = SubResource("RectangleShape2D_awifi")
+
 [node name="DeckCardSprite0" type="Sprite2D" parent="."]
 position = Vector2(0, 4)
 texture = ExtResource("1_uw8ea")
@@ -145,12 +151,6 @@ position = Vector2(0, -4)
 texture = ExtResource("1_uw8ea")
 region_enabled = true
 region_rect = Rect2(96, 256, 48, 64)
-
-[node name="ClickableArea" type="Area2D" parent="."]
-script = ExtResource("3_u3j8v")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickableArea"]
-shape = SubResource("RectangleShape2D_awifi")
 
 [connection signal="clicked" from="ClickableArea" to="." method="_on_clickable_area_clicked"]
 [connection signal="input_event" from="ClickableArea" to="ClickableArea" method="_on_input_event"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyfq3ccwj7yy8"]
+
+[ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_xk1p0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7smn1"]
+size = Vector2(56, 72)
+
+[node name="CardDropArea" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7smn1")
+
+[node name="Placeholder" type="Sprite2D" parent="."]
+texture = ExtResource("1_xk1p0")
+region_enabled = true
+region_rect = Rect2(144, 256, 48, 64)

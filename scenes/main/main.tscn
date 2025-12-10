@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=16 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
 [ext_resource type="PackedScene" uid="uid://cen2627xwl1p2" path="res://scenes/deck/deck.tscn" id="2_iuonh"]
 [ext_resource type="PackedScene" uid="uid://d1x21i2aki4jg" path="res://scenes/debug_gui/debug_gui.tscn" id="3_k2fmo"]
+[ext_resource type="PackedScene" uid="uid://cyfq3ccwj7yy8" path="res://scenes/card_drop_area/card_drop_area.tscn" id="3_raeie"]
+[ext_resource type="Texture2D" uid="uid://drnypgxpc5r3p" path="res://assets/sprites.png" id="4_7smn1"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
@@ -31,9 +33,6 @@ metadata/_edit_lock_ = true
 [node name="Deck" parent="." instance=ExtResource("2_iuonh")]
 position = Vector2(64, 104)
 
-[node name="Room" parent="." instance=ExtResource("2_6q06x")]
-position = Vector2(240, 104)
-
 [node name="CardMarkers" type="Node2D" parent="."]
 
 [node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
@@ -51,17 +50,33 @@ position = Vector2(272, 104)
 [node name="RoomCardMarker3" type="Marker2D" parent="CardMarkers"]
 position = Vector2(336, 104)
 
-[node name="EquipCardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(240, 184)
+[node name="WeaponCardMarker" type="Marker2D" parent="CardMarkers"]
+position = Vector2(208, 184)
+
+[node name="HandPlaceholder" type="Marker2D" parent="CardMarkers"]
+position = Vector2(272, 184)
 
 [node name="DiscardMarker" type="Marker2D" parent="CardMarkers"]
 position = Vector2(416, 104)
 
-[node name="EquipPlaceholder" type="Sprite2D" parent="."]
-position = Vector2(240, 184)
-texture = ExtResource("1_hyk8p")
+[node name="WeaponArea" parent="." instance=ExtResource("3_raeie")]
+position = Vector2(208, 184)
+
+[node name="Sprite2D" type="Sprite2D" parent="WeaponArea"]
+texture = ExtResource("4_7smn1")
 region_enabled = true
-region_rect = Rect2(144, 256, 48, 64)
+region_rect = Rect2(16, 16, 16, 16)
+
+[node name="HandArea" parent="." instance=ExtResource("3_raeie")]
+position = Vector2(272, 184)
+
+[node name="Sprite2D" type="Sprite2D" parent="HandArea"]
+texture = ExtResource("4_7smn1")
+region_enabled = true
+region_rect = Rect2(16, 32, 16, 16)
+
+[node name="Room" parent="." instance=ExtResource("2_6q06x")]
+position = Vector2(240, 104)
 
 [node name="DiscardPlaceholder" type="Sprite2D" parent="."]
 position = Vector2(416, 104)

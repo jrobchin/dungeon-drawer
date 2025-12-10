@@ -58,7 +58,7 @@ func deal_card() -> bool:
 
 	var tween = create_tween()
 
-	tween.tween_property(card_node, "global_position", mid_point, 0.1).set_trans(Tween.TRANS_QUART)
+	tween.tween_property(card_node, "global_position", mid_point, 0.2).set_trans(Tween.TRANS_QUART)
 	tween.tween_property(card_node, "global_position", target_position, 0.2).set_trans(Tween.TRANS_QUART)
 
 	await tween.finished
