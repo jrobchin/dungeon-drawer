@@ -3,10 +3,11 @@ extends Node
 
 @export var deck: Deck
 @export var room: Room
+@export var game_state_machine: StateMachine
 
 
 func _on_debug_gui_reset() -> void:
-	initialize_game_state()
+	game_state_machine.set_state(GameState.INITIALIZING)
 
 
 func initialize_game_state() -> void:

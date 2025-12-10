@@ -43,7 +43,6 @@ func _on_debug_gui_shuffle_deck() -> void:
 
 func _initial_cards() -> Array:
 	return [
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.ACE),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TWO),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.THREE),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.FOUR),
@@ -53,7 +52,6 @@ func _initial_cards() -> Array:
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.EIGHT),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.NINE),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TEN),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.ACE),
 		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
 		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.THREE),
 		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.FOUR),

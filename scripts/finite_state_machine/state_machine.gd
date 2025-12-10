@@ -10,14 +10,23 @@ signal state_changed()
 @export var initial_state: State = null
 
 ## The current state of the state machine.
-@onready var state: State = (func get_initial_state() -> State:
-	return initial_state if initial_state != null else get_child(0)
-).call()
+@onready var state: State = null
+
+var state_names: Array[String] = []
 
 
 func _ready() -> void:
+	# Set the initial state.
+	if initial_state == null:
+		var first_state := get_child(0)
+		assert(first_state != null, "StateMachine has no child State nodes to use as initial state.")
+		state = first_state as State
+	else:
+		state = initial_state
+
 	# Connect to every state's finished signal to transition to the next state.
 	for state_node: State in find_children("*", "State"):
+		state_names.append(state_node.name)
 		state_node.finished.connect(_transition_to_next_state)
 
 	# State machines usually access data from the root node of the scene they're part of: the owner.
@@ -48,3 +57,8 @@ func _transition_to_next_state(target_state_path: String, data: Dictionary = { }
 	state = get_node(target_state_path)
 	state.enter(previous_state_path, data)
 	state_changed.emit()
+
+
+func set_state(state_name: String, data: Dictionary = { }) -> void:
+	assert(state_name in state_names, "StateMachine has no state named %s" % state_name)
+	_transition_to_next_state(state_name, data)

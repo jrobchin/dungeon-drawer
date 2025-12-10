@@ -16,68 +16,74 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Settings" type="Node" parent="." node_paths=PackedStringArray("info_logs_indicator", "info_logs_stack_indicator")]
 script = ExtResource("1_j87hc")
-info_logs_indicator = NodePath("../PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator/ColorRect")
-info_logs_stack_indicator = NodePath("../PanelContainer/Buttons/ToggleInfoLogsStackContainer/ToggleIndicator/ColorRect")
+info_logs_indicator = NodePath("../PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator/ColorRect")
+info_logs_stack_indicator = NodePath("../PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsStackContainer/ToggleIndicator/ColorRect")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 1.0149254
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Buttons" type="VBoxContainer" parent="PanelContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
 layout_mode = 2
 
-[node name="ToggleInfoLogsContainer" type="HBoxContainer" parent="PanelContainer/Buttons"]
+[node name="Buttons" type="VBoxContainer" parent="PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ToggleInfoLogsContainer" type="HBoxContainer" parent="PanelContainer/ScrollContainer/Buttons"]
 layout_mode = 2
 
-[node name="ToggleInfoLogs" parent="PanelContainer/Buttons/ToggleInfoLogsContainer" instance=ExtResource("3_tvbtf")]
+[node name="ToggleInfoLogs" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsContainer" instance=ExtResource("3_tvbtf")]
 layout_mode = 2
 
-[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/Buttons/ToggleInfoLogsContainer"]
+[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsContainer/ToggleIndicator"]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 
-[node name="ToggleInfoLogsStackContainer" type="HBoxContainer" parent="PanelContainer/Buttons"]
+[node name="ToggleInfoLogsStackContainer" type="HBoxContainer" parent="PanelContainer/ScrollContainer/Buttons"]
 layout_mode = 2
 
-[node name="ToggleInfoLogsStack" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer" instance=ExtResource("3_tvbtf")]
+[node name="ToggleInfoLogsStack" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsStackContainer" instance=ExtResource("3_tvbtf")]
 layout_mode = 2
 text = "Info Logs Stack"
 
-[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer"]
+[node name="ToggleIndicator" type="MarginContainer" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsStackContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer/Buttons/ToggleInfoLogsStackContainer/ToggleIndicator"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsStackContainer/ToggleIndicator"]
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 
-[node name="Reset" type="Button" parent="PanelContainer/Buttons"]
+[node name="Reset" type="Button" parent="PanelContainer/ScrollContainer/Buttons"]
 layout_mode = 2
 focus_mode = 0
 text = "Reset"
 
-[node name="DealCard" type="Button" parent="PanelContainer/Buttons"]
+[node name="DealCard" type="Button" parent="PanelContainer/ScrollContainer/Buttons"]
 layout_mode = 2
 focus_mode = 0
 text = "Deal Card"
 
-[node name="ShuffleDeck" type="Button" parent="PanelContainer/Buttons"]
+[node name="ShuffleDeck" type="Button" parent="PanelContainer/ScrollContainer/Buttons"]
 layout_mode = 2
 focus_mode = 0
 text = "Shuffle Deck"
 
-[connection signal="pressed" from="PanelContainer/Buttons/ToggleInfoLogsContainer/ToggleInfoLogs" to="Settings" method="_on_toggle_info_logs_pressed"]
-[connection signal="pressed" from="PanelContainer/Buttons/ToggleInfoLogsStackContainer/ToggleInfoLogsStack" to="Settings" method="_on_toggle_info_logs_stack_pressed"]
-[connection signal="button_up" from="PanelContainer/Buttons/Reset" to="." method="_on_reset_button_up"]
-[connection signal="button_up" from="PanelContainer/Buttons/DealCard" to="." method="_on_deal_card_button_up"]
-[connection signal="button_up" from="PanelContainer/Buttons/ShuffleDeck" to="." method="_on_shuffle_deck_button_up"]
+[connection signal="pressed" from="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsContainer/ToggleInfoLogs" to="Settings" method="_on_toggle_info_logs_pressed"]
+[connection signal="pressed" from="PanelContainer/ScrollContainer/Buttons/ToggleInfoLogsStackContainer/ToggleInfoLogsStack" to="Settings" method="_on_toggle_info_logs_stack_pressed"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/Buttons/Reset" to="." method="_on_reset_button_up"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/Buttons/DealCard" to="." method="_on_deal_card_button_up"]
+[connection signal="button_up" from="PanelContainer/ScrollContainer/Buttons/ShuffleDeck" to="." method="_on_shuffle_deck_button_up"]

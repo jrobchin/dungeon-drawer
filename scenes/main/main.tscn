@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=14 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
@@ -6,8 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://d1x21i2aki4jg" path="res://scenes/debug_gui/debug_gui.tscn" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
+[ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
 [ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
-[ext_resource type="Script" uid="uid://cbud65whcpuh7" path="res://scenes/main/game_state_manager/initialize.gd" id="7_yyfjg"]
+[ext_resource type="Script" uid="uid://omv3gwuia3u2" path="res://scenes/main/dealing_room.gd" id="8_b1x3f"]
+[ext_resource type="Script" uid="uid://tl8y644r3vut" path="res://scenes/main/initializing.gd" id="8_ouso4"]
+[ext_resource type="Script" uid="uid://bhr6m8cffm48f" path="res://scenes/main/player_turn.gd" id="10_ouso4"]
+[ext_resource type="AudioStream" uid="uid://bq1br8cfav5al" path="res://assets/sounds/deck_draw.wav" id="12_th5th"]
+[ext_resource type="AudioStream" uid="uid://g8tfxirysqwx" path="res://assets/sounds/card_place.wav" id="13_7smn1"]
 
 [node name="Main" type="Node"]
 metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0]
@@ -64,7 +69,7 @@ texture = ExtResource("1_hyk8p")
 region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 
-[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "deck_marker", "room_card_marker_0", "room_card_marker_1", "room_card_marker_2", "room_card_marker_3")]
+[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "deck_marker", "room_card_marker_0", "room_card_marker_1", "room_card_marker_2", "room_card_marker_3", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
@@ -73,24 +78,47 @@ room_card_marker_0 = NodePath("../CardMarkers/RoomCardMarker0")
 room_card_marker_1 = NodePath("../CardMarkers/RoomCardMarker1")
 room_card_marker_2 = NodePath("../CardMarkers/RoomCardMarker2")
 room_card_marker_3 = NodePath("../CardMarkers/RoomCardMarker3")
+deck_draw_player = NodePath("../DeckDrawStreamPlayer")
+card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "game_state_machine")]
 script = ExtResource("5_ow5a4")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
+game_state_machine = NodePath("../GameStateMachine")
+
+[node name="StateManager" type="Node" parent="."]
+script = ExtResource("6_a8run")
 
 [node name="GameStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("6_hujxm")
-initial_state = NodePath("Initialize")
+initial_state = NodePath("Initializing")
 
-[node name="Initialize" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_initializer")]
-script = ExtResource("7_yyfjg")
+[node name="Initializing" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_initializer")]
+script = ExtResource("8_ouso4")
 state_initializer = NodePath("../../StateInitializer")
 
-[node name="DebugGui" parent="." instance=ExtResource("3_k2fmo")]
+[node name="DealingRoom" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("card_manager")]
+script = ExtResource("8_b1x3f")
+card_manager = NodePath("../../CardManager")
+
+[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_manager")]
+script = ExtResource("10_ouso4")
+state_manager = NodePath("../../StateManager")
+
+[node name="DebugGui" parent="." node_paths=PackedStringArray("state_manager") instance=ExtResource("3_k2fmo")]
 visible = false
 grow_horizontal = 2
 grow_vertical = 0
+state_manager = NodePath("../StateManager")
+
+[node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_th5th")
+volume_db = -12.0
+
+[node name="CardPlaceStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_7smn1")
+volume_db = -12.0
 
 [connection signal="deal_card" from="DebugGui" to="CardManager" method="_on_debug_gui_deal_card"]
 [connection signal="reset" from="DebugGui" to="StateInitializer" method="_on_debug_gui_reset"]

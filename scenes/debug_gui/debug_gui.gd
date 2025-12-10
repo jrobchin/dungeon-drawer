@@ -1,5 +1,7 @@
 extends Control
 
+@export var state_manager: StateManager
+
 signal reset
 signal deal_card
 signal shuffle_deck
@@ -7,6 +9,10 @@ signal shuffle_deck
 
 func _ready() -> void:
 	visible = false
+
+# func _process(_delta: float) -> void:
+# 	if state_manager != null:
+# 		print("Current State: %s" % state_manager.player_turn)
 
 
 func _input(event: InputEvent) -> void:
