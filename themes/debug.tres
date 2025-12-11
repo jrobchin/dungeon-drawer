@@ -1,4 +1,12 @@
-[gd_resource type="Theme" format=3 uid="uid://bfsyuidm1ti5h"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bfsyuidm1ti5h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6s40v"]
+bg_color = Color(0.4117647, 0.4117647, 0.4117647, 0.39215687)
 
 [resource]
 default_font_size = 6
+MarginContainer/constants/margin_bottom = 2
+MarginContainer/constants/margin_left = 2
+MarginContainer/constants/margin_right = 2
+MarginContainer/constants/margin_top = 2
+SplitContainer/styles/split_bar_background = SubResource("StyleBoxFlat_6s40v")

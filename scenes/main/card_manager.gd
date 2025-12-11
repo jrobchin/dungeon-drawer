@@ -3,7 +3,7 @@ extends Node
 
 @export var deck: Deck
 @export var room: Room
-@export var card_holder: Node2D
+@export var card_tree: CardTree
 @export var deck_marker: Marker2D
 @export var deck_draw_player: AudioStreamPlayer
 @export var card_place_player: AudioStreamPlayer
@@ -34,15 +34,16 @@ func deal_card() -> bool:
 
 	var card = deck.draw_card()
 	var card_node = card_scene.instantiate() as CardNode
+	card_node.name = str(card)
 	card_node.card = card
 
-	var add_card_result = room.add_card(card)
+	var add_card_result = room.add_card(card_node)
 	if not add_card_result.success:
 		Debug.print_info("Failed to add card to room")
 		return false
 
 	card_node.global_position = deck_marker.global_position
-	card_holder.add_child(card_node)
+	card_tree.add_child(card_node)
 
 	# Connect bring-to-front signal
 	card_node.bring_to_front_requested.connect(_on_card_bring_to_front)
@@ -70,7 +71,7 @@ func deal_card() -> bool:
 	card_place_player.play()
 	await card_place_player.finished
 
-	emit_signal("card_dealt")
+	card_dealt.emit()
 
 	return true
 
@@ -81,17 +82,7 @@ func _on_debug_gui_reset() -> void:
 
 func _on_card_bring_to_front(card_node: CardNode) -> void:
 	# Move card to end of children list (top of visual stack)
-	var child_count = card_holder.get_child_count()
+	var child_count = card_tree.get_child_count()
 	var current_index = card_node.get_index()
 	if current_index != child_count - 1:
-		card_holder.move_child(card_node, child_count - 1)
-
-
-func _on_weapon_card_drop_card_dropped(card_node: CardNode) -> void:
-	if room.is_in_room(card_node.card):
-		room.remove_card(card_node.card)
-
-
-func _on_hand_card_drop_card_dropped(card_node: CardNode) -> void:
-	if room.is_in_room(card_node.card):
-		room.remove_card(card_node.card)
+		card_tree.move_child(card_node, child_count - 1)

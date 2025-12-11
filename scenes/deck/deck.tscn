@@ -36,28 +36,28 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_osv6s"]
 resource_name = "hide"
 length = 0.3
-tracks/0/type = "bezier"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CardCount:position:y")
+tracks/0/path = NodePath("CardCount:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(36, -0.2916667, 0.17234421, 0, 0, 24, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.3)
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CardCount:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardCount:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(36, -0.2916667, 0.17234421, 0.13333334, -4.0127068, 19.534, -0.099999994, 8.596376, 0, 2.5112362),
+"times": PackedFloat32Array(0, 0.23333333)
 }
 
 [sub_resource type="Animation" id="Animation_oncup"]
@@ -71,7 +71,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(24, -0.25, 0, 0.25, 0, 36, -0.2916667, 0.17234421, 0, 0),
+"points": PackedFloat32Array(24, -0.25, 0, 0.13333334, 6.9437428, 36, -0.23333335, -2.349224, 0, 0),
 "times": PackedFloat32Array(0, 0.3)
 }
 tracks/1/type = "value"
@@ -110,7 +110,7 @@ libraries = {
 visible = false
 offset_left = -24.0
 offset_right = 24.0
-offset_bottom = 12.0
+offset_bottom = 20.000011
 theme = ExtResource("4_765a5")
 text = "52"
 horizontal_alignment = 1

@@ -58,6 +58,8 @@ func _transition_to_next_state(target_state_path: String, data: Dictionary = { }
 	state.enter(previous_state_path, data)
 	state_changed.emit()
 
+	Debug.print_info("%s transitioned from %s to %s" % [self.name, previous_state_path, target_state_path])
+
 
 func set_state(state_name: String, data: Dictionary = { }) -> void:
 	assert(state_name in state_names, "StateMachine has no state named %s" % state_name)

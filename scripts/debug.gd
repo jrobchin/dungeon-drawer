@@ -12,5 +12,3 @@ func print_info(message: String) -> void:
 	if Settings.info_logs_stack_enabled:
 		for frame in stack:
 			print_verbose("    at %s:%d in %s()" % [frame["source"], frame["line"], frame["function"]])
-	else:
-		print_verbose("    at %s:%d in %s()" % [stack[0]["source"], stack[0]["line"], stack[0]["function"]])

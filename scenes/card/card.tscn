@@ -27,8 +27,9 @@ root_node = NodePath("..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DraggableArea"]
 shape = SubResource("RectangleShape2D_vtcvk")
 
+[connection signal="drag_end" from="DraggableArea" to="." method="_on_draggable_area_drag_end"]
+[connection signal="drag_start" from="DraggableArea" to="." method="_on_draggable_area_drag_start"]
+[connection signal="dropped" from="DraggableArea" to="." method="_on_draggable_area_dropped"]
 [connection signal="input_event" from="DraggableArea" to="DraggableArea" method="_on_input_event"]
 [connection signal="mouse_entered" from="DraggableArea" to="DraggableArea" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="DraggableArea" to="DraggableArea" method="_on_mouse_exited"]
-[connection signal="on_drag_end" from="DraggableArea" to="." method="_on_draggable_area_on_drag_end"]
-[connection signal="on_drag_start" from="DraggableArea" to="." method="_on_draggable_area_on_drag_start"]

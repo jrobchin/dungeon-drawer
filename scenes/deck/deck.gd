@@ -20,7 +20,7 @@ signal deck_clicked
 
 func _on_clickable_area_clicked() -> void:
 	Debug.print_info("Deck clicked")
-	emit_signal("deck_clicked")
+	deck_clicked.emit()
 
 
 func _on_clickable_area_mouse_entered() -> void:

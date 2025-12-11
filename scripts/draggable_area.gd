@@ -4,8 +4,9 @@ extends Area2D
 @export var root_node: Node2D
 @export var draggable: bool = true
 
-signal on_drag_start
-signal on_drag_end
+signal drag_start
+signal drag_end
+signal dropped(area: DroppableArea)
 
 var _drag_start_pos := Vector2.ZERO
 var _node_start_pos := Vector2.ZERO
@@ -57,7 +58,7 @@ func _start_drag() -> void:
 	_drag_start_pos = get_global_mouse_position()
 	_node_start_pos = root_node.global_position
 
-	emit_signal("on_drag_start")
+	drag_start.emit()
 
 
 func _end_drag() -> void:
@@ -66,25 +67,17 @@ func _end_drag() -> void:
 	_active_dragger = null
 	_check_drop()
 
-	emit_signal("on_drag_end")
+	drag_end.emit()
 
 
 func _check_drop() -> void:
-	var dropped_into_area := false
-
 	var areas = get_overlapping_areas()
 	for area in areas:
-		if area is CardDrop:
-			dropped_into_area = true
-			area.handle_drop(root_node)
-			break
+		if area is DroppableArea:
+			if area.can_drop(get_parent()):
+				dropped.emit(area)
 
-	if dropped_into_area:
-		draggable = false
-	else:
-		# Return to original position
-		if root_node:
-			root_node.global_position = _node_start_pos
+	dropped.emit(null)
 
 
 func _is_topmost_at_mouse() -> bool:

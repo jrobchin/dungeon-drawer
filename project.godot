@@ -26,6 +26,7 @@ Store="*res://scripts/store.gd"
 
 debug/info_logs_enabled=false
 debug/info_logs_stack_enabled=false
+game/max_player_health=20
 
 [debug]
 
@@ -38,6 +39,7 @@ window/size/viewport_height=270
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
+window/vsync/vsync_mode=0
 
 [rendering]
 

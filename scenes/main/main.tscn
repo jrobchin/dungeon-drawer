@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=22 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://cpn2tclrjqxsl" path="res://scenes/room/room.tscn" id="2_6q06x"]
@@ -7,19 +7,26 @@
 [ext_resource type="Texture2D" uid="uid://drnypgxpc5r3p" path="res://assets/sprites.png" id="4_7smn1"]
 [ext_resource type="PackedScene" uid="uid://bboubiqc5e838" path="res://scenes/card_drop/card_drop.tscn" id="4_hxu8e"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
-[ext_resource type="Script" path="res://scenes/card_drop/card_drop.gd" id="5_nvumn"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
 [ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
 [ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
-[ext_resource type="Script" uid="uid://2jg6npxy82g" path="res://scenes/main/card_holder.gd" id="6_hxu8e"]
+[ext_resource type="Script" uid="uid://2jg6npxy82g" path="res://scenes/main/card_tree.gd" id="6_hxu8e"]
 [ext_resource type="Script" uid="uid://omv3gwuia3u2" path="res://scenes/main/dealing_room.gd" id="8_b1x3f"]
 [ext_resource type="Script" uid="uid://tl8y644r3vut" path="res://scenes/main/initializing.gd" id="8_ouso4"]
 [ext_resource type="Script" uid="uid://bhr6m8cffm48f" path="res://scenes/main/player_turn.gd" id="10_ouso4"]
 [ext_resource type="AudioStream" uid="uid://bq1br8cfav5al" path="res://assets/sounds/deck_draw.wav" id="12_th5th"]
 [ext_resource type="AudioStream" uid="uid://g8tfxirysqwx" path="res://assets/sounds/card_place.wav" id="13_7smn1"]
+[ext_resource type="Script" uid="uid://7s3tmixa1ufn" path="res://scenes/main/weapon_equip_ability.gd" id="14_r4lks"]
+[ext_resource type="Theme" uid="uid://cg4eeh61cnmp1" path="res://themes/main.tres" id="15_ou6is"]
+[ext_resource type="Script" uid="uid://b306wawemnmbu" path="res://scenes/main/health_label.gd" id="16_necax"]
+[ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_necax"]
+font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
 
 [node name="Main" type="Node"]
-metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0]
+metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0, 440.0]
+metadata/_edit_horizontal_guides_ = [230.0]
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -60,7 +67,6 @@ region_rect = Rect2(144, 256, 48, 64)
 
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(208, 184)
-script = ExtResource("5_nvumn")
 
 [node name="Sprite2D" type="Sprite2D" parent="WeaponCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -69,7 +75,6 @@ region_rect = Rect2(16, 16, 16, 16)
 
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(272, 184)
-script = ExtResource("5_nvumn")
 
 [node name="Sprite2D" type="Sprite2D" parent="HandCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -79,19 +84,20 @@ region_rect = Rect2(16, 32, 16, 16)
 [node name="CardTree" type="Node2D" parent="."]
 script = ExtResource("6_hxu8e")
 
-[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_holder", "deck_marker", "deck_draw_player", "card_place_player")]
+[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "deck_marker", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
-card_holder = NodePath("../CardTree")
+card_tree = NodePath("../CardTree")
 deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "game_state_machine")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "state_manager", "card_tree", "game_state_machine")]
 script = ExtResource("5_ow5a4")
 deck = NodePath("../Deck")
 room = NodePath("../Room")
+state_manager = NodePath("../StateManager")
 card_tree = NodePath("../CardTree")
 game_state_machine = NodePath("../GameStateMachine")
 
@@ -110,26 +116,71 @@ state_initializer = NodePath("../../StateInitializer")
 script = ExtResource("8_b1x3f")
 card_manager = NodePath("../../CardManager")
 
-[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_manager")]
+[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_manager", "room", "card_tree")]
 script = ExtResource("10_ouso4")
 state_manager = NodePath("../../StateManager")
+room = NodePath("../../Room")
+card_tree = NodePath("../../CardTree")
 
-[node name="DebugGui" parent="." node_paths=PackedStringArray("state_manager") instance=ExtResource("3_k2fmo")]
-visible = false
-grow_horizontal = 2
-grow_vertical = 0
-state_manager = NodePath("../StateManager")
+[node name="WeaponEquipAbility" type="Node" parent="GameStateMachine/PlayerTurn"]
+script = ExtResource("14_r4lks")
 
 [node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_th5th")
 volume_db = -12.0
 
+[node name="Gui" type="Control" parent="."]
+top_level = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("15_ou6is")
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="Health" type="Control" parent="Gui"]
+anchors_preset = 0
+offset_left = 379.0
+offset_top = 210.0
+offset_right = 440.0
+offset_bottom = 230.0
+
+[node name="HealthLabel" type="Label" parent="Gui/Health"]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 44.0
+offset_bottom = 20.0
+text = "20/20"
+label_settings = SubResource("LabelSettings_necax")
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("16_necax")
+metadata/_edit_lock_ = true
+
+[node name="HealthIcon" type="Sprite2D" parent="Gui/Health"]
+position = Vector2(53, 9)
+texture = ExtResource("4_7smn1")
+hframes = 5
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+script = ExtResource("17_nvumn")
+
+[node name="DebugGui" parent="." node_paths=PackedStringArray("game_state_machine") instance=ExtResource("3_k2fmo")]
+visible = false
+grow_horizontal = 2
+grow_vertical = 0
+game_state_machine = NodePath("../GameStateMachine")
+
 [node name="CardPlaceStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_7smn1")
 volume_db = -12.0
 
-[connection signal="card_dropped" from="WeaponCardDrop" to="CardManager" method="_on_weapon_card_drop_card_dropped"]
-[connection signal="card_dropped" from="HandCardDrop" to="CardManager" method="_on_hand_card_drop_card_dropped"]
+[connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthLabel" method="_on_state_manager_player_health_changed"]
+[connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthIcon" method="_on_state_manager_player_health_changed"]
 [connection signal="deal_card" from="DebugGui" to="CardManager" method="_on_debug_gui_deal_card"]
+[connection signal="health_changed" from="DebugGui" to="StateManager" method="_on_debug_gui_health_changed"]
 [connection signal="reset" from="DebugGui" to="StateInitializer" method="_on_debug_gui_reset"]
 [connection signal="shuffle_deck" from="DebugGui" to="Deck" method="_on_debug_gui_shuffle_deck"]

@@ -1,17 +1,19 @@
 class_name CardDrop
-extends Area2D
-
-signal card_dropped(card_node: CardNode)
+extends DroppableArea
 
 var hover: bool = false
-var card: Cards.Card
+var card_nodes: Array[CardNode] = []
 
 
-func handle_drop(card_node: CardNode) -> void:
-	# Snap card to this area's position
-	card_node.global_position = global_position
+func can_drop(node: Node) -> bool:
+	# TODO: MOVE TO NON COMMON SCRIPT
+	if node is CardNode:
+		var card_node = node as CardNode
+		if card_node.card.suit == Cards.Suit.DIAMONDS:
+			if card_nodes.is_empty():
+				return true
 
-	emit_signal("card_dropped", card_node)
+	return false
 
 
 func _on_area_exited(_area: Area2D) -> void:

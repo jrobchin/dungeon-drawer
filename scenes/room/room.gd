@@ -11,7 +11,7 @@ class AddCardResult:
 		card_position = _card_position
 
 
-var cards: Array[Cards.Card]
+var cards: Array[CardNode]
 
 @onready var card_positions: Array[Marker2D] = [
 	$CardPosition0,
@@ -36,6 +36,11 @@ func _first_empty_index() -> int:
 	return -1
 
 
+func set_draggable(value: bool):
+	for card in cards:
+		card.draggable = value
+
+
 func initialize() -> void:
 	cards = [null, null, null, null]
 	Debug.print_info("Room initialized.")
@@ -53,7 +58,7 @@ func is_in_room(card: Cards.Card):
 
 
 ## Adds a card to the room. Returns the result of adding the card.
-func add_card(card: Cards.Card) -> AddCardResult:
+func add_card(card_node: CardNode) -> AddCardResult:
 	if not can_add_card():
 		Debug.print_info("Cannot add card, room is full.")
 		return null
@@ -62,13 +67,9 @@ func add_card(card: Cards.Card) -> AddCardResult:
 	if first_empty_index == -1:
 		printerr("Error: No empty index found, but room is not full?")
 
-	Debug.print_info(
-		"Adding card to room: %s of %s" % [
-			Cards.rank_to_string(card.rank),
-			Cards.suit_to_string(card.suit),
-		],
-	)
-	cards[first_empty_index] = card
+	Debug.print_info("Adding card to room")
+
+	cards[first_empty_index] = card_node
 
 	Debug.print_info("Cards: " + str(cards))
 

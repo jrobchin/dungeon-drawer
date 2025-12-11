@@ -1,4 +1,6 @@
-[gd_resource type="Theme" format=3 uid="uid://cg4eeh61cnmp1"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cg4eeh61cnmp1"]
+
+[ext_resource type="FontFile" uid="uid://ds5sd6gaykpuj" path="res://assets/Concert_One/ConcertOne-Regular.ttf" id="1_0avsd"]
 
 [resource]
-default_font_size = 8
+default_font = ExtResource("1_0avsd")
