@@ -76,13 +76,20 @@ func deal_card() -> bool:
 	return true
 
 
-func _on_debug_gui_reset() -> void:
-	pass # Replace with function body.
-
-
 func _on_card_bring_to_front(card_node: CardNode) -> void:
 	# Move card to end of children list (top of visual stack)
 	var child_count = card_tree.get_child_count()
 	var current_index = card_node.get_index()
 	if current_index != child_count - 1:
 		card_tree.move_child(card_node, child_count - 1)
+
+
+func _on_gui_mouse_exited() -> void:
+	Debug.print_info("Mouse exited GUI")
+	Store.is_dragging = false
+	Store.dragging_node = null
+	for node in card_tree.get_children():
+		if node is CardNode:
+			var card_node = node as CardNode
+			if card_node.dragging:
+				card_node.global_position = card_node.last_picked_up_position

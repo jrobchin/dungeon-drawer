@@ -4,6 +4,7 @@ extends Node2D
 
 var card: Cards.Card
 var last_picked_up_position: Vector2
+var dragging: bool = false
 var draggable: bool = false:
 	set(value):
 		draggable = value
@@ -30,11 +31,14 @@ func _on_draggable_area_drag_end() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE, 0.1)
 
+	dragging = false
+
 	card_dropped.emit(self)
 
 
 func _on_draggable_area_drag_start() -> void:
 	last_picked_up_position = global_position
+	dragging = true
 
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE * 1.05, 0.1)

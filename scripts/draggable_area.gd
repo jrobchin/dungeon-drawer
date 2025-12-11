@@ -11,8 +11,6 @@ signal dropped(area: DroppableArea)
 var _drag_start_pos := Vector2.ZERO
 var _node_start_pos := Vector2.ZERO
 
-static var _active_dragger: DraggableArea = null
-
 
 func _ready() -> void:
 	if not root_node:
@@ -27,21 +25,21 @@ func _on_input_event(viewport: Node, event: InputEvent, _shape_idx: int) -> void
 			if not draggable:
 				return
 
-			if mouse_event.pressed and not Store.is_dragging and _active_dragger == null:
+			if mouse_event.pressed and not Store.is_dragging and Store.dragging_node == null:
 				# Check if this is the topmost draggable area at this position
 				if _is_topmost_at_mouse():
 					_start_drag()
 
 					viewport.set_input_as_handled()
 
-			elif not mouse_event.pressed and Store.is_dragging and _active_dragger == self:
+			elif not mouse_event.pressed and Store.is_dragging and Store.dragging_node == self:
 				_end_drag()
 
 				viewport.set_input_as_handled()
 
 
 func _input(event: InputEvent) -> void:
-	if Store.is_dragging and _active_dragger == self and event is InputEventMouseMotion:
+	if Store.is_dragging and Store.dragging_node == self and event is InputEventMouseMotion:
 		if root_node:
 			var current_mouse_pos := get_global_mouse_position()
 			var drag_offset := current_mouse_pos - _drag_start_pos
@@ -52,9 +50,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _start_drag() -> void:
-	_active_dragger = self
+	Store.dragging_node = self
 	Store.is_dragging = true
-	Store.dragging_node = root_node
 	_drag_start_pos = get_global_mouse_position()
 	_node_start_pos = root_node.global_position
 
@@ -64,7 +61,6 @@ func _start_drag() -> void:
 func _end_drag() -> void:
 	Store.is_dragging = false
 	Store.dragging_node = null
-	_active_dragger = null
 	_check_drop()
 
 	drag_end.emit()
@@ -116,6 +112,6 @@ func _on_mouse_entered() -> void:
 
 
 func _on_mouse_exited() -> void:
-	if Store.is_dragging and _active_dragger == self:
+	if Store.is_dragging and Store.dragging_node == self:
 		Store.is_dragging = false
-		_active_dragger = null
+		Store.dragging_node = null
