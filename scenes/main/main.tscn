@@ -140,7 +140,6 @@ region_enabled = true
 region_rect = Rect2(16, 32, 16, 16)
 
 [node name="CardTree" type="Node2D" parent="."]
-visible = false
 script = ExtResource("6_hxu8e")
 
 [node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "deck_marker", "deck_draw_player", "card_place_player")]
