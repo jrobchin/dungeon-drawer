@@ -21,8 +21,14 @@ func _ready() -> void:
 	$DraggableArea.draggable = draggable
 
 
-func _on_draggable_area_dropped(area: CardDrop) -> void:
+## Puts the card back to the last place it was picked up.
+func put_back() -> void:
+	global_position = last_picked_up_position
+
+
+func _on_draggable_area_dropped(area: DroppableArea) -> void:
 	if area == null:
+		Debug.print_info("Resetting card: %s position" % self)
 		global_position = last_picked_up_position
 		return
 

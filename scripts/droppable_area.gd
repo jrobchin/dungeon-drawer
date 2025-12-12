@@ -1,7 +1,8 @@
 class_name DroppableArea
 extends Area2D
 
-## Overridden by subclasses. By default, rejects drops.
-@warning_ignore("unused_parameter")
-func can_drop(node: Node) -> bool:
-	return false
+signal node_dropped(droppable_area: DroppableArea, node: Node2D)
+
+
+func drop(node: Node2D) -> void:
+	node_dropped.emit(self, node)

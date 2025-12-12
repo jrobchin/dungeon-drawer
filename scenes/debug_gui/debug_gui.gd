@@ -10,20 +10,8 @@ signal health_changed(value: int)
 var values: Dictionary = { }
 
 
-func _ready() -> void:
-	visible = false
-
-
 func _process(_delta: float) -> void:
 	_update_values()
-
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		var keyEvent = event as InputEventKey
-
-		if keyEvent.keycode == KEY_F1 and keyEvent.pressed and not keyEvent.echo:
-			visible = not visible
 
 
 func _update_values() -> void:

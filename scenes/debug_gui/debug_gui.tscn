@@ -1,15 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1x21i2aki4jg"]
+[gd_scene load_steps=5 format=3 uid="uid://d1x21i2aki4jg"]
 
 [ext_resource type="Theme" uid="uid://bfsyuidm1ti5h" path="res://themes/debug.tres" id="1_ehehd"]
 [ext_resource type="Script" uid="uid://d23385nrbw06d" path="res://scenes/debug_gui/settings.gd" id="1_j87hc"]
 [ext_resource type="Script" uid="uid://by0sv6822v3bt" path="res://scenes/debug_gui/debug_gui.gd" id="2_v3nbi"]
 [ext_resource type="PackedScene" uid="uid://c4hmsox16ge27" path="res://scenes/debug_gui/toggle_button.tscn" id="3_tvbtf"]
-[ext_resource type="Script" uid="uid://5x6e2a0bwa54" path="res://scenes/debug_gui/screenshot.gd" id="5_ndak8"]
 
 [node name="DebugGui" type="Control"]
 layout_mode = 3
-anchor_right = 0.33333334
-anchor_bottom = 0.9925926
+anchor_right = 2.0830002
+anchor_bottom = 3.7041852
+offset_right = 0.15991211
+offset_bottom = -0.13000488
 grow_vertical = 2
 theme = ExtResource("1_ehehd")
 script = ExtResource("2_v3nbi")
@@ -31,7 +32,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VSplitContainer" type="VSplitContainer" parent="PanelContainer"]
 layout_mode = 2
-split_offset = 135
+split_offset = 500
 drag_area_highlight_in_editor = true
 
 [node name="Controls" type="ScrollContainer" parent="PanelContainer/VSplitContainer"]
@@ -95,9 +96,6 @@ text = "Deal Card"
 layout_mode = 2
 focus_mode = 0
 text = "Shuffle Deck"
-
-[node name="Screenshot" type="Node" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
-script = ExtResource("5_ndak8")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
 layout_mode = 2

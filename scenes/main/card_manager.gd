@@ -20,10 +20,6 @@ func _ready() -> void:
 		push_error("Card Place Player is not assigned to CardManager!")
 
 
-func _on_debug_gui_deal_card() -> void:
-	await deal_card()
-
-
 ## Deals a card from the deck to the room. Returns true if successful, false if the room is full.
 func deal_card() -> bool:
 	Debug.print_info("Dealing a card")

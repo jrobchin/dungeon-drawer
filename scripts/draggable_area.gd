@@ -67,12 +67,14 @@ func _end_drag() -> void:
 
 
 func _check_drop() -> void:
+	Debug.print_info("Checking %s drop" % self.get_parent())
 	var areas = get_overlapping_areas()
 	for area in areas:
 		if area is DroppableArea:
-			if area.can_drop(get_parent()):
-				dropped.emit(area)
+			area.drop(get_parent())
+			return
 
+	Debug.print_info("%s not dropped on an area" % self.get_parent())
 	dropped.emit(null)
 
 

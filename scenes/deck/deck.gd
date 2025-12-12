@@ -12,10 +12,15 @@ const MAX_CARDS: int = 46
 @onready var deck_card_sprite_3: Sprite2D = $DeckCardSprite3
 @onready var deck_card_sprite_4: Sprite2D = $DeckCardSprite4
 
-var cards: Array = _initial_cards()
+var cards: Array[Cards.Card]
 var hover: bool = false
 
 signal deck_clicked
+signal cards_changed(deck: Deck)
+
+
+func _ready() -> void:
+	_update_card_sprites_visibility()
 
 
 func _on_clickable_area_clicked() -> void:
@@ -37,86 +42,50 @@ func _on_clickable_area_mouse_exited() -> void:
 	animation_player.play("hide")
 
 
-func _on_debug_gui_shuffle_deck() -> void:
-	shuffle_deck()
-
-
-func _initial_cards() -> Array:
-	return [
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TWO),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.THREE),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.FOUR),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.FIVE),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.SIX),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.SEVEN),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.EIGHT),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.NINE),
-		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TEN),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.THREE),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.FOUR),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.FIVE),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.SIX),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.SEVEN),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.EIGHT),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.NINE),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TEN),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.ACE),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.TWO),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.THREE),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.FOUR),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.FIVE),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.SIX),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.SEVEN),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.EIGHT),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.NINE),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.TEN),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.JACK),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.QUEEN),
-		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.KING),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.ACE),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.TWO),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.THREE),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.FOUR),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.FIVE),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.SIX),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.SEVEN),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.EIGHT),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.NINE),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.TEN),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.JACK),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.QUEEN),
-		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.KING),
-	]
-
-
-func initialize():
-	cards = _initial_cards()
+func _cards_changed() -> void:
 	_update_card_sprites_visibility()
-	Debug.print_info("Deck initialized with %d cards." % cards.size())
+	cards_changed.emit(self)
+
+
+func initialize(_cards: Array[Cards.Card]):
+	cards = _cards
+	_cards_changed()
+	Debug.print_info("%s initialized with %d cards." % [self, cards.size()])
 
 
 func shuffle_deck() -> void:
 	cards.shuffle()
-	Debug.print_info("Deck shuffled")
+	_cards_changed()
+	Debug.print_info("%s shuffled" % self)
 
 
 func draw_card() -> Cards.Card:
 	if cards.size() == 0:
-		Debug.print_info("No more cards in the deck to draw, returning null.")
+		Debug.print_info("No more cards in the deck: %s to draw, returning null." % self)
 		return null
 
 	var drawn_card: Cards.Card = cards.pop_back()
-	_update_card_sprites_visibility()
-	Debug.print_info("Drew card: %s of %s" % [Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
+	_cards_changed()
+	Debug.print_info("Drew card from %s: %s of %s" % [self, Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
 
 	return drawn_card
 
 
+func add_card(card: Cards.Card) -> void:
+	cards.append(card)
+	_cards_changed()
+	Debug.print_info("Added to %s: %s" % [self, card])
+
+
 func _update_card_sprites_visibility() -> void:
 	var card_sprites = [deck_card_sprite_0, deck_card_sprite_1, deck_card_sprite_2, deck_card_sprite_3, deck_card_sprite_4]
-	var cards_remaining_percentage = float(cards.size()) / MAX_CARDS + 0.2
 
-	for i in range(card_sprites.size() - 1, -1, -1):
-		var threshold = float(i + 1) / card_sprites.size()
-		card_sprites[i].visible = cards_remaining_percentage > threshold
+	if cards.size() == 0:
+		for i in range(card_sprites.size() - 1, -1, -1):
+			card_sprites[i].visible = false
+	else:
+		var cards_remaining_percentage = float(cards.size()) / MAX_CARDS + 0.2
+
+		for i in range(card_sprites.size() - 1, -1, -1):
+			var threshold = float(i + 1) / card_sprites.size()
+			card_sprites[i].visible = cards_remaining_percentage > threshold

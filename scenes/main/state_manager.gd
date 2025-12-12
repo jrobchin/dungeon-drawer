@@ -30,7 +30,3 @@ func initialize() -> void:
 	player_turn = 0
 	player_move = 0
 	player_health = Settings.max_player_health
-
-
-func _on_debug_gui_health_changed(value: int) -> void:
-	player_health = value

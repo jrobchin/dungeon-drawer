@@ -8,12 +8,57 @@ extends Node
 @export var game_state_machine: StateMachine
 
 
-func _on_debug_gui_reset() -> void:
-	game_state_machine.set_state(GameState.INITIALIZING)
+func _initial_cards() -> Array[Cards.Card]:
+	return [
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.THREE),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.FOUR),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.FIVE),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.SIX),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.SEVEN),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.EIGHT),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.NINE),
+		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.TEN),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.THREE),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.FOUR),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.FIVE),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.SIX),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.SEVEN),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.EIGHT),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.NINE),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TEN),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.ACE),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.THREE),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.FOUR),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.FIVE),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.SIX),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.SEVEN),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.EIGHT),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.NINE),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.TEN),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.JACK),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.QUEEN),
+		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.KING),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.ACE),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.THREE),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.FOUR),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.FIVE),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.SIX),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.SEVEN),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.EIGHT),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.NINE),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.TEN),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.JACK),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.QUEEN),
+		Cards.Card.new(Cards.Suit.CLUBS, Cards.Rank.KING),
+	]
 
 
 func initialize_game_state() -> void:
-	deck.initialize()
+	deck.initialize(_initial_cards())
 	deck.shuffle_deck()
 
 	room.initialize()
