@@ -10,8 +10,6 @@ extends Node
 
 signal card_dealt
 
-var card_scene: PackedScene = preload("res://scenes/card/card.tscn")
-
 
 func _ready() -> void:
 	if deck_draw_player == null:
@@ -28,18 +26,14 @@ func deal_card() -> bool:
 		Debug.print_info("Room is full, cannot deal more cards")
 		return false
 
-	var card = deck.draw_card()
-	if card == null:
+	var card_node = deck.draw_card()
+	if card_node == null:
 		Debug.print_info("No more cards to deal from the deck")
 		return false
 
-	var card_node = card_scene.instantiate() as CardNode
-	card_node.name = str(card)
-	card_node.card = card
-
 	var add_card_result = room.add_card(card_node)
 	if not add_card_result.success:
-		Debug.print_info("Failed to add card to room")
+		Debug.print_info("Failed to add card_node to room")
 		return false
 
 	card_node.global_position = deck_marker.global_position

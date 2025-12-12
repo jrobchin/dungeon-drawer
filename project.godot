@@ -24,7 +24,7 @@ Store="*res://scripts/store.gd"
 
 [custom]
 
-debug/info_logs_enabled=false
+debug/info_logs_enabled=true
 debug/info_logs_stack_enabled=false
 game/max_player_health=20
 
@@ -34,8 +34,8 @@ settings/stdout/verbose_stdout=true
 
 [display]
 
-window/size/viewport_width=480
-window/size/viewport_height=270
+window/size/viewport_width=640
+window/size/viewport_height=360
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/subwindows/embed_subwindows=false

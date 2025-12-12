@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://bhr6m8cffm48f" path="res://scenes/main/player_turn.gd" id="10_ouso4"]
 [ext_resource type="AudioStream" uid="uid://bq1br8cfav5al" path="res://assets/sounds/deck_draw.wav" id="12_th5th"]
 [ext_resource type="AudioStream" uid="uid://g8tfxirysqwx" path="res://assets/sounds/card_place.wav" id="13_7smn1"]
-[ext_resource type="Script" uid="uid://7s3tmixa1ufn" path="res://scenes/main/weapon_equip_ability.gd" id="14_r4lks"]
+[ext_resource type="Script" uid="uid://7s3tmixa1ufn" path="res://scenes/main/weapon_ability.gd" id="14_r4lks"]
 [ext_resource type="Theme" uid="uid://cg4eeh61cnmp1" path="res://themes/main.tres" id="15_ou6is"]
 [ext_resource type="Script" uid="uid://b306wawemnmbu" path="res://scenes/main/health_label.gd" id="16_necax"]
 [ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
@@ -32,8 +32,8 @@ font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
 [node name="Main" type="Node" node_paths=PackedStringArray("debug_window")]
 script = ExtResource("1_m4h2d")
 debug_window = NodePath("DebugWindow")
-metadata/_edit_vertical_guides_ = [240.0, 120.0, 360.0, 440.0]
-metadata/_edit_horizontal_guides_ = [230.0]
+metadata/_edit_horizontal_guides_ = [180.0]
+metadata/_edit_vertical_guides_ = [300.0]
 
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource("2_p8abn")
@@ -73,10 +73,9 @@ grow_vertical = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 color = Color(0.15686275, 0.30588236, 0.19607843, 1)
-metadata/_edit_lock_ = true
 
 [node name="DrawDeck" parent="." instance=ExtResource("2_iuonh")]
-position = Vector2(64, 100)
+position = Vector2(124, 108)
 
 [node name="DeckPlaceholder" type="Sprite2D" parent="DrawDeck"]
 position = Vector2(0, 4)
@@ -86,7 +85,7 @@ region_rect = Rect2(144, 256, 48, 64)
 script = ExtResource("8_37hlw")
 
 [node name="DiscardDeck" parent="." instance=ExtResource("2_iuonh")]
-position = Vector2(416, 100)
+position = Vector2(476, 108)
 
 [node name="DeckPlaceholder" type="Sprite2D" parent="DiscardDeck"]
 position = Vector2(0, 4)
@@ -98,22 +97,22 @@ script = ExtResource("8_37hlw")
 [node name="CardMarkers" type="Node2D" parent="."]
 
 [node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(64, 96)
+position = Vector2(124, 104)
 
 [node name="WeaponCardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(208, 184)
+position = Vector2(268, 192)
 
 [node name="HandPlaceholder" type="Marker2D" parent="CardMarkers"]
-position = Vector2(272, 184)
+position = Vector2(332, 192)
 
 [node name="DiscardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(416, 104)
+position = Vector2(476, 112)
 
 [node name="Room" parent="." instance=ExtResource("2_6q06x")]
-position = Vector2(240, 104)
+position = Vector2(300, 112)
 
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(208, 184)
+position = Vector2(268, 192)
 
 [node name="Sprite2D" type="Sprite2D" parent="WeaponCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -121,7 +120,7 @@ region_enabled = true
 region_rect = Rect2(16, 16, 16, 16)
 
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(272, 184)
+position = Vector2(332, 192)
 
 [node name="Sprite2D" type="Sprite2D" parent="HandCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -172,7 +171,7 @@ state_manager = NodePath("../../StateManager")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
 
-[node name="WeaponEquipAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
+[node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("14_r4lks")
 discard_deck = NodePath("../../../DiscardDeck")
 room = NodePath("../../../Room")
@@ -224,13 +223,13 @@ script = ExtResource("17_nvumn")
 stream = ExtResource("13_7smn1")
 volume_db = -12.0
 
-[connection signal="deal_card" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_deal_card"]
+[connection signal="deal_cards" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_deal_cards"]
 [connection signal="health_changed" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_health_changed"]
 [connection signal="reset" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_reset"]
 [connection signal="set_room_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_draggable"]
 [connection signal="set_room_not_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_not_draggable"]
 [connection signal="shuffle_deck" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_shuffle_deck"]
-[connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponEquipAbility" method="_on_weapon_card_drop_node_dropped"]
+[connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
 [connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthLabel" method="_on_state_manager_player_health_changed"]
 [connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthIcon" method="_on_state_manager_player_health_changed"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]

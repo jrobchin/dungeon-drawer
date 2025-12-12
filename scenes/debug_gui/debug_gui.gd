@@ -3,7 +3,7 @@ extends Control
 @export var game_state_machine: StateMachine
 
 signal reset
-signal deal_card
+signal deal_cards
 signal shuffle_deck
 signal health_changed(value: int)
 signal set_room_draggable
@@ -31,8 +31,8 @@ func _update_values() -> void:
 	%ValuesLabel.text = value_text
 
 
-func _on_deal_card_button_up() -> void:
-	deal_card.emit()
+func _on_deal_cards_button_up() -> void:
+	deal_cards.emit()
 
 
 func _on_shuffle_deck_button_up() -> void:

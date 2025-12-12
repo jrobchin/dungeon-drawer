@@ -6,6 +6,8 @@ extends Node2D
 
 const MAX_CARDS: int = 46
 
+var card_scene: PackedScene = preload("res://scenes/card/card.tscn")
+
 @onready var deck_card_sprite_0: Sprite2D = $DeckCardSprite0
 @onready var deck_card_sprite_1: Sprite2D = $DeckCardSprite1
 @onready var deck_card_sprite_2: Sprite2D = $DeckCardSprite2
@@ -59,22 +61,32 @@ func shuffle_deck() -> void:
 	Debug.print_info("%s shuffled" % self)
 
 
-func draw_card() -> Cards.Card:
+## Draws a card from the deck. Instantiates the card node.
+func draw_card() -> CardNode:
 	if cards.size() == 0:
 		Debug.print_info("No more cards in the deck: %s to draw, returning null." % self)
 		return null
 
 	var drawn_card: Cards.Card = cards.pop_back()
-	_cards_changed()
 	Debug.print_info("Drew card from %s: %s of %s" % [self, Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
 
-	return drawn_card
+	var card_node = card_scene.instantiate() as CardNode
+	card_node.name = str(drawn_card)
+	card_node.card = drawn_card
 
-
-func add_card(card: Cards.Card) -> void:
-	cards.append(card)
 	_cards_changed()
-	Debug.print_info("Added to %s: %s" % [self, card])
+
+	return card_node
+
+
+## Adds card to deck. Since decks do not need nodes, cards added to the deck are freed.
+func add_card(card_node: CardNode) -> void:
+	cards.append(card_node.card)
+	Debug.print_info("Added card %s: %s" % [self, card_node.card])
+
+	card_node.queue_free()
+
+	_cards_changed()
 
 
 func _update_card_sprites_visibility() -> void:

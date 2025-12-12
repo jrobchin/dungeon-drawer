@@ -11,7 +11,7 @@ class AddCardResult:
 		card_position = _card_position
 
 
-var cards: Array[CardNode]
+var card_nodes: Array[CardNode]
 
 @onready var card_positions: Array[Marker2D] = [
 	$CardPosition0,
@@ -23,38 +23,39 @@ var cards: Array[CardNode]
 
 func _num_cards() -> int:
 	var count: int = 0
-	for card in cards:
-		if card != null:
+	for card_node in card_nodes:
+		if card_node != null:
 			count += 1
 	return count
 
 
 func _first_empty_index() -> int:
-	for i in range(cards.size()):
-		if cards[i] == null:
+	for i in range(card_nodes.size()):
+		if card_nodes[i] == null:
 			return i
 	return -1
 
 
 func set_draggable(value: bool):
-	for card in cards:
-		card.draggable = value
+	for card_node in card_nodes:
+		if card_node != null:
+			card_node.draggable = value
 
 
 func initialize() -> void:
-	cards = [null, null, null, null]
+	card_nodes = [null, null, null, null]
 	Debug.print_info("Room initialized.")
 
 
 ## Checks if a card can be added.
 func can_add_card() -> bool:
 	var num_cards = _num_cards()
-	Debug.print_info("Number of cards in room: %d" % num_cards)
-	return num_cards < cards.size()
+	Debug.print_info("Number of card_nodes in room: %d" % num_cards)
+	return num_cards < card_nodes.size()
 
 
 func is_in_room(card: Cards.Card):
-	return cards.find(card) > -1
+	return card_nodes.find(card) > -1
 
 
 ## Adds a card to the room. Returns the result of adding the card.
@@ -69,18 +70,18 @@ func add_card(card_node: CardNode) -> AddCardResult:
 
 	Debug.print_info("Adding card to room")
 
-	cards[first_empty_index] = card_node
+	card_nodes[first_empty_index] = card_node
 
-	Debug.print_info("Cards: " + str(cards))
+	Debug.print_info("Cards: " + str(card_nodes))
 
 	return AddCardResult.new(true, card_positions[first_empty_index].global_position)
 
 
 func remove_card(card_node: CardNode) -> bool:
-	var idx = cards.find(card_node)
+	var idx = card_nodes.find(card_node)
 	if idx < 0:
 		return false
 
-	cards[idx] = null
+	card_nodes[idx] = null
 
 	return true

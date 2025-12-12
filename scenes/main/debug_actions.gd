@@ -8,8 +8,8 @@ extends Node
 @export var game_state_machine: StateMachine
 
 
-func _on_debug_gui_deal_card() -> void:
-	await card_manager.deal_card()
+func _on_debug_gui_deal_cards() -> void:
+	game_state_machine.set_state(GameState.DEALING_ROOM)
 
 
 func _on_debug_gui_reset() -> void:

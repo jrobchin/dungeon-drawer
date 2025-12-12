@@ -87,10 +87,10 @@ layout_mode = 2
 focus_mode = 0
 text = "Reset"
 
-[node name="DealCard" type="Button" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
+[node name="DealCards" type="Button" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
-text = "Deal Card"
+text = "Deal Cards"
 
 [node name="ShuffleDeck" type="Button" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -141,7 +141,7 @@ layout_mode = 2
 [connection signal="pressed" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/ToggleInfoLogsContainer/ToggleInfoLogs" to="Settings" method="_on_toggle_info_logs_pressed"]
 [connection signal="pressed" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/ToggleInfoLogsStackContainer/ToggleInfoLogsStack" to="Settings" method="_on_toggle_info_logs_stack_pressed"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_button_up"]
-[connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/DealCard" to="." method="_on_deal_card_button_up"]
+[connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/DealCards" to="." method="_on_deal_cards_button_up"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/ShuffleDeck" to="." method="_on_shuffle_deck_button_up"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer/SetRoomDraggable" to="." method="_on_set_room_draggable_button_up"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer/SetRoomNotDraggable" to="." method="_on_set_room_not_draggable_button_up"]

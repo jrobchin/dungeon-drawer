@@ -3,6 +3,7 @@ extends Node
 enum STATUS {
 	ROOM,
 	WEAPON,
+	DEFEATED_MONSTER,
 }
 
 enum Suit {
@@ -73,6 +74,14 @@ func rank_to_string(rank: Rank) -> String:
 			return "Ace"
 		_:
 			return "Unknown Rank"
+
+
+func is_weapon(card: Card):
+	return card.suit == Suit.DIAMONDS
+
+
+func is_monster(card: Card):
+	return card.suit == Suit.SPADES or card.suit == Suit.CLUBS
 
 
 class Card:
