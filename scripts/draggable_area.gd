@@ -20,6 +20,8 @@ func _ready() -> void:
 	assert(_pick_up_collision_shape, "DroppableArea must have a PickUp CollisionShape2D")
 	assert(_drop_collision_shape, "DroppableArea must have a Drop CollisionShape2D")
 
+	set_process(false)
+
 
 func _on_input_event(viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton:

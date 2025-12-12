@@ -35,9 +35,9 @@ func deal_card() -> bool:
 	if not add_card_result.success:
 		Debug.print_info("Failed to add card_node to room")
 		return false
-
-	card_node.global_position = deck_marker.global_position
+		
 	card_tree.add_child(card_node)
+	card_node.global_position = deck_marker.global_position
 
 	# Connect bring-to-front signal
 	card_node.bring_to_front_requested.connect(_on_card_bring_to_front)
