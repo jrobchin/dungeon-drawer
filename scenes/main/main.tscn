@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=29 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://cmhla1afgy7d4" path="res://scenes/main/main.gd" id="1_m4h2d"]
@@ -26,8 +26,11 @@
 [ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
 [ext_resource type="Script" uid="uid://b7ein7xm50q7a" path="res://scenes/main/hand_ability.gd" id="20_37hlw"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6llfj"]
+size = Vector2(46, 62)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_37hlw"]
-size = Vector2(40, 60)
+size = Vector2(46, 62)
 
 [sub_resource type="LabelSettings" id="LabelSettings_necax"]
 font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
@@ -41,13 +44,14 @@ metadata/_edit_vertical_guides_ = [300.0]
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource("2_p8abn")
 
-[node name="DebugActions" type="Node" parent="." node_paths=PackedStringArray("room", "card_manager", "state_initializer", "drawDeck", "game_state_machine")]
+[node name="DebugActions" type="Node" parent="." node_paths=PackedStringArray("room", "card_manager", "state_initializer", "drawDeck", "game_state_machine", "card_tree")]
 script = ExtResource("3_s17dp")
 room = NodePath("../Room")
 card_manager = NodePath("../CardManager")
 state_initializer = NodePath("../StateInitializer")
 drawDeck = NodePath("../DrawDeck")
 game_state_machine = NodePath("../GameStateMachine")
+card_tree = NodePath("../CardTree")
 
 [node name="DebugWindow" type="Window" parent="."]
 oversampling_override = 1.0
@@ -116,16 +120,19 @@ position = Vector2(300, 112)
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(268, 192)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCardDrop"]
+shape = SubResource("RectangleShape2D_6llfj")
+
 [node name="Sprite2D" type="Sprite2D" parent="WeaponCardDrop"]
 texture = ExtResource("4_7smn1")
 region_enabled = true
 region_rect = Rect2(16, 16, 16, 16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCardDrop"]
-shape = SubResource("RectangleShape2D_37hlw")
-
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(332, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HandCardDrop"]
+shape = SubResource("RectangleShape2D_37hlw")
 
 [node name="Sprite2D" type="Sprite2D" parent="HandCardDrop"]
 texture = ExtResource("4_7smn1")
@@ -133,6 +140,7 @@ region_enabled = true
 region_rect = Rect2(16, 32, 16, 16)
 
 [node name="CardTree" type="Node2D" parent="."]
+visible = false
 script = ExtResource("6_hxu8e")
 
 [node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "deck_marker", "deck_draw_player", "card_place_player")]
@@ -232,5 +240,7 @@ volume_db = -12.0
 [connection signal="set_room_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_draggable"]
 [connection signal="set_room_not_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_not_draggable"]
 [connection signal="shuffle_deck" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_shuffle_deck"]
+[connection signal="toggle_hide_cards" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_toggle_hide_cards"]
+[connection signal="card_nodes_changed" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_card_nodes_changed"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]

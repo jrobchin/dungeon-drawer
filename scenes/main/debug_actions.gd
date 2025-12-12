@@ -5,6 +5,9 @@ extends Node
 @export var state_initializer: StateInitializer
 @export var drawDeck: Deck
 @export var game_state_machine: StateMachine
+@export var card_tree: CardTree
+
+var card_hidden_states: Dictionary = { }
 
 
 func _on_debug_gui_deal_cards() -> void:
@@ -29,3 +32,7 @@ func _on_debug_gui_set_room_draggable() -> void:
 
 func _on_debug_gui_set_room_not_draggable() -> void:
 	room.set_draggable(false)
+
+
+func _on_debug_gui_toggle_hide_cards() -> void:
+	card_tree.visible = !card_tree.visible

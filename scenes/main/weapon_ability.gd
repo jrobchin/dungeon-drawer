@@ -104,6 +104,23 @@ func _calculate_card_position(card_drop: CardDrop) -> Vector2:
 	return card_drop.global_position + Vector2(0, CARD_PLACEMENT_OFFSET * (card_drop.card_nodes.size() - 1))
 
 
+func _update_collision_shape(card_drop: CardDrop) -> void:
+	if card_drop.card_nodes.size() == 0:
+		card_drop.collision_shape.shape = card_drop.initial_collision_shape_shape
+		return
+
+	var offset: float = CARD_PLACEMENT_OFFSET * (card_drop.card_nodes.size() - 1)
+
+	var new_shape = RectangleShape2D.new()
+	new_shape.size = Vector2(
+		card_drop.initial_collision_shape_shape.size.x,
+		card_drop.initial_collision_shape_shape.size.y + offset,
+	)
+
+	card_drop.collision_shape.shape = new_shape
+	card_drop.collision_shape.position.y = card_drop.initial_collision_shape_position.y + offset / 2
+
+
 func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node2D) -> void:
 	if !is_players_turn():
 		return
@@ -121,3 +138,7 @@ func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node
 			return
 
 		card_node.put_back()
+
+
+func _on_weapon_card_drop_card_nodes_changed(card_drop: DroppableArea) -> void:
+	_update_collision_shape(card_drop)

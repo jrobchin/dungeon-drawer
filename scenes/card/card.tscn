@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dlunwjbyi1s1i"]
+[gd_scene load_steps=7 format=3 uid="uid://dlunwjbyi1s1i"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_d81rb"]
 [ext_resource type="Script" uid="uid://30orf7todo8y" path="res://scenes/card/card_node.gd" id="1_vtcvk"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtcvk"]
 size = Vector2(44, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g65cd"]
+radius = 2.828427
 
 [node name="CardNode" type="Node2D"]
 script = ExtResource("1_vtcvk")
@@ -23,13 +26,16 @@ script = ExtResource("3_vtcvk")
 [node name="DraggableArea" type="Area2D" parent="." node_paths=PackedStringArray("root_node")]
 script = ExtResource("4_g65cd")
 root_node = NodePath("..")
+draggable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DraggableArea"]
+[node name="PickUp" type="CollisionShape2D" parent="DraggableArea"]
 shape = SubResource("RectangleShape2D_vtcvk")
+
+[node name="Drop" type="CollisionShape2D" parent="DraggableArea"]
+shape = SubResource("CircleShape2D_g65cd")
+disabled = true
 
 [connection signal="drag_end" from="DraggableArea" to="." method="_on_draggable_area_drag_end"]
 [connection signal="drag_start" from="DraggableArea" to="." method="_on_draggable_area_drag_start"]
 [connection signal="dropped" from="DraggableArea" to="." method="_on_draggable_area_dropped"]
 [connection signal="input_event" from="DraggableArea" to="DraggableArea" method="_on_input_event"]
-[connection signal="mouse_entered" from="DraggableArea" to="DraggableArea" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="DraggableArea" to="DraggableArea" method="_on_mouse_exited"]

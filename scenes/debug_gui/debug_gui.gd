@@ -8,6 +8,7 @@ signal shuffle_deck
 signal health_changed(value: int)
 signal set_room_draggable
 signal set_room_not_draggable
+signal toggle_hide_cards
 
 var values: Dictionary = { }
 
@@ -56,3 +57,7 @@ func _on_set_room_draggable_button_up() -> void:
 
 func _on_set_room_not_draggable_button_up() -> void:
 	set_room_not_draggable.emit()
+
+
+func _on_toggle_hide_cards_button_up() -> void:
+	toggle_hide_cards.emit()

@@ -86,4 +86,4 @@ func _on_gui_mouse_exited() -> void:
 		if node is CardNode:
 			var card_node = node as CardNode
 			if card_node.dragging:
-				card_node.global_position = card_node.last_picked_up_position
+				card_node.put_back()

@@ -9,6 +9,7 @@ var card: Cards.Card
 var status: Cards.STATUS
 var last_picked_up_position: Vector2
 var dragging: bool = false
+
 var draggable: bool = false:
 	set(value):
 		draggable = value
@@ -28,9 +29,12 @@ func _ready() -> void:
 ## Puts the card back to the last place it was picked up.
 func put_back() -> void:
 	global_position = last_picked_up_position
+	dragging = false
+	$DraggableArea.end_drag()
 
 
 func _on_draggable_area_dropped(area: DroppableArea) -> void:
+	dragging = false
 	if area == null:
 		Debug.print_info("Resetting card: %s position" % self)
 		global_position = last_picked_up_position
