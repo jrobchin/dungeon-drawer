@@ -29,6 +29,10 @@ func deal_card() -> bool:
 		return false
 
 	var card = deck.draw_card()
+	if card == null:
+		Debug.print_info("No more cards to deal from the deck")
+		return false
+
 	var card_node = card_scene.instantiate() as CardNode
 	card_node.name = str(card)
 	card_node.card = card

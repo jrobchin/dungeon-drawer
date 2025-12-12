@@ -76,8 +76,8 @@ func add_card(card_node: CardNode) -> AddCardResult:
 	return AddCardResult.new(true, card_positions[first_empty_index].global_position)
 
 
-func remove_card(card: Cards.Card) -> bool:
-	var idx = cards.find(card)
+func remove_card(card_node: CardNode) -> bool:
+	var idx = cards.find(card_node)
 	if idx < 0:
 		return false
 

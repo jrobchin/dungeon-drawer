@@ -6,6 +6,8 @@ signal reset
 signal deal_card
 signal shuffle_deck
 signal health_changed(value: int)
+signal set_room_draggable
+signal set_room_not_draggable
 
 var values: Dictionary = { }
 
@@ -46,3 +48,11 @@ func _on_set_health_text_submitted(new_text: String) -> void:
 		printerr("Health can only be set to an int")
 
 	health_changed.emit(int(new_text))
+
+
+func _on_set_room_draggable_button_up() -> void:
+	set_room_draggable.emit()
+
+
+func _on_set_room_not_draggable_button_up() -> void:
+	set_room_not_draggable.emit()

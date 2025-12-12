@@ -1,5 +1,10 @@
 extends Node
 
+enum STATUS {
+	ROOM,
+	WEAPON,
+}
+
 enum Suit {
 	HEARTS,
 	DIAMONDS,

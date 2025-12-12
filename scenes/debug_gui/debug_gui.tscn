@@ -97,6 +97,21 @@ layout_mode = 2
 focus_mode = 0
 text = "Shuffle Deck"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SetRoomDraggable" type="Button" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Set Room Draggable"
+
+[node name="SetRoomNotDraggable" type="Button" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Set Room Not Draggable"
+
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -128,4 +143,6 @@ layout_mode = 2
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/Reset" to="." method="_on_reset_button_up"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/DealCard" to="." method="_on_deal_card_button_up"]
 [connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/ShuffleDeck" to="." method="_on_shuffle_deck_button_up"]
+[connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer/SetRoomDraggable" to="." method="_on_set_room_draggable_button_up"]
+[connection signal="button_up" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/HBoxContainer/SetRoomNotDraggable" to="." method="_on_set_room_not_draggable_button_up"]
 [connection signal="text_submitted" from="PanelContainer/VSplitContainer/Controls/MarginContainer/VBoxContainer/MarginContainer/SetHealthField/SetHealth" to="." method="_on_set_health_text_submitted"]

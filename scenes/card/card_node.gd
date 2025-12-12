@@ -2,7 +2,11 @@
 class_name CardNode
 extends Node2D
 
+## Holds the playing card related data.
 var card: Cards.Card
+
+## The current status of the card.
+var status: Cards.STATUS
 var last_picked_up_position: Vector2
 var dragging: bool = false
 var draggable: bool = false:

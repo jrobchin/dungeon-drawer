@@ -47,7 +47,7 @@ func _cards_changed() -> void:
 	cards_changed.emit(self)
 
 
-func initialize(_cards: Array[Cards.Card]):
+func initialize(_cards: Array[Cards.Card] = []):
 	cards = _cards
 	_cards_changed()
 	Debug.print_info("%s initialized with %d cards." % [self, cards.size()])

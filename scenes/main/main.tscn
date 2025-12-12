@@ -38,8 +38,14 @@ metadata/_edit_horizontal_guides_ = [230.0]
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource("2_p8abn")
 
-[node name="DebugActions" type="Node" parent="."]
+[node name="DebugActions" type="Node" parent="." node_paths=PackedStringArray("room", "card_manager", "state_initializer", "state_manager", "drawDeck", "game_state_machine")]
 script = ExtResource("3_s17dp")
+room = NodePath("../Room")
+card_manager = NodePath("../CardManager")
+state_initializer = NodePath("../StateInitializer")
+state_manager = NodePath("../StateManager")
+drawDeck = NodePath("../DrawDeck")
+game_state_machine = NodePath("../GameStateMachine")
 
 [node name="DebugWindow" type="Window" parent="."]
 oversampling_override = 1.0
@@ -134,13 +140,16 @@ deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "state_manager", "card_tree", "game_state_machine")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("draw_deck", "discard_deck", "room", "state_manager", "card_tree", "game_state_machine", "weapon_card_drop", "hand_card_drop")]
 script = ExtResource("5_ow5a4")
-deck = NodePath("../DrawDeck")
+draw_deck = NodePath("../DrawDeck")
+discard_deck = NodePath("../DiscardDeck")
 room = NodePath("../Room")
 state_manager = NodePath("../StateManager")
 card_tree = NodePath("../CardTree")
 game_state_machine = NodePath("../GameStateMachine")
+weapon_card_drop = NodePath("../WeaponCardDrop")
+hand_card_drop = NodePath("../HandCardDrop")
 
 [node name="StateManager" type="Node" parent="."]
 script = ExtResource("6_a8run")
@@ -163,8 +172,10 @@ state_manager = NodePath("../../StateManager")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
 
-[node name="WeaponEquipAbility" type="Node" parent="GameStateMachine/PlayerTurn"]
+[node name="WeaponEquipAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("14_r4lks")
+discard_deck = NodePath("../../../DiscardDeck")
+room = NodePath("../../../Room")
 
 [node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_th5th")
@@ -216,6 +227,8 @@ volume_db = -12.0
 [connection signal="deal_card" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_deal_card"]
 [connection signal="health_changed" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_health_changed"]
 [connection signal="reset" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_reset"]
+[connection signal="set_room_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_draggable"]
+[connection signal="set_room_not_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_not_draggable"]
 [connection signal="shuffle_deck" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_shuffle_deck"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponEquipAbility" method="_on_weapon_card_drop_node_dropped"]
 [connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthLabel" method="_on_state_manager_player_health_changed"]
