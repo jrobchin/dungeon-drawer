@@ -128,7 +128,7 @@ func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node
 	if node is CardNode:
 		var card_node = node as CardNode
 
-		Debug.print_info("Trying to drop %s on %s" % [card_node, droppable_area])
+		Debug.print_info("Trying [%s] to drop %s on %s" % [self, card_node, droppable_area])
 		if _equip_weapon(droppable_area, card_node):
 			Store.player_move += 1
 			return

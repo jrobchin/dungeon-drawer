@@ -178,8 +178,10 @@ script = ExtResource("10_ouso4")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
 
-[node name="HandAbility" type="Node" parent="GameStateMachine/PlayerTurn"]
+[node name="HandAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("20_37hlw")
+discard_deck = NodePath("../../../DiscardDeck")
+room = NodePath("../../../Room")
 
 [node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("14_r4lks")
@@ -242,4 +244,5 @@ volume_db = -12.0
 [connection signal="toggle_hide_cards" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_toggle_hide_cards"]
 [connection signal="card_nodes_changed" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_card_nodes_changed"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
+[connection signal="node_dropped" from="HandCardDrop" to="GameStateMachine/PlayerTurn/HandAbility" method="_on_hand_card_drop_node_dropped"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]
