@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=28 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://cmhla1afgy7d4" path="res://scenes/main/main.gd" id="1_m4h2d"]
@@ -24,6 +24,10 @@
 [ext_resource type="Theme" uid="uid://cg4eeh61cnmp1" path="res://themes/main.tres" id="15_ou6is"]
 [ext_resource type="Script" uid="uid://b306wawemnmbu" path="res://scenes/main/health_label.gd" id="16_necax"]
 [ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
+[ext_resource type="Script" uid="uid://b7ein7xm50q7a" path="res://scenes/main/hand_ability.gd" id="20_37hlw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_37hlw"]
+size = Vector2(40, 60)
 
 [sub_resource type="LabelSettings" id="LabelSettings_necax"]
 font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
@@ -37,12 +41,11 @@ metadata/_edit_vertical_guides_ = [300.0]
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource("2_p8abn")
 
-[node name="DebugActions" type="Node" parent="." node_paths=PackedStringArray("room", "card_manager", "state_initializer", "state_manager", "drawDeck", "game_state_machine")]
+[node name="DebugActions" type="Node" parent="." node_paths=PackedStringArray("room", "card_manager", "state_initializer", "drawDeck", "game_state_machine")]
 script = ExtResource("3_s17dp")
 room = NodePath("../Room")
 card_manager = NodePath("../CardManager")
 state_initializer = NodePath("../StateInitializer")
-state_manager = NodePath("")
 drawDeck = NodePath("../DrawDeck")
 game_state_machine = NodePath("../GameStateMachine")
 
@@ -118,6 +121,9 @@ texture = ExtResource("4_7smn1")
 region_enabled = true
 region_rect = Rect2(16, 16, 16, 16)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCardDrop"]
+shape = SubResource("RectangleShape2D_37hlw")
+
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
 position = Vector2(332, 192)
 
@@ -138,12 +144,11 @@ deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
-[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("draw_deck", "discard_deck", "room", "state_manager", "card_tree", "game_state_machine", "weapon_card_drop", "hand_card_drop")]
+[node name="StateInitializer" type="Node" parent="." node_paths=PackedStringArray("draw_deck", "discard_deck", "room", "card_tree", "game_state_machine", "weapon_card_drop", "hand_card_drop")]
 script = ExtResource("5_ow5a4")
 draw_deck = NodePath("../DrawDeck")
 discard_deck = NodePath("../DiscardDeck")
 room = NodePath("../Room")
-state_manager = NodePath("")
 card_tree = NodePath("../CardTree")
 game_state_machine = NodePath("../GameStateMachine")
 weapon_card_drop = NodePath("../WeaponCardDrop")
@@ -161,17 +166,18 @@ state_initializer = NodePath("../../StateInitializer")
 script = ExtResource("8_b1x3f")
 card_manager = NodePath("../../CardManager")
 
-[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_manager", "room", "card_tree")]
+[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("room", "card_tree")]
 script = ExtResource("10_ouso4")
-state_manager = NodePath("")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
 
-[node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room", "state_manager")]
+[node name="HandAbility" type="Node" parent="GameStateMachine/PlayerTurn"]
+script = ExtResource("20_37hlw")
+
+[node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("14_r4lks")
 discard_deck = NodePath("../../../DiscardDeck")
 room = NodePath("../../../Room")
-state_manager = NodePath("")
 
 [node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_th5th")

@@ -1,11 +1,9 @@
-extends Node
+extends PlayerAbility
 
 const CARD_PLACEMENT_OFFSET = 10
 
 @export var discard_deck: Deck
 @export var room: Room
-
-@onready var player_turn: PlayerTurn = get_parent() as PlayerTurn
 
 
 func _equip_weapon(card_drop: CardDrop, card_node: CardNode) -> bool:
@@ -107,7 +105,7 @@ func _calculate_card_position(card_drop: CardDrop) -> Vector2:
 
 
 func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node2D) -> void:
-	if !player_turn.is_active:
+	if !is_players_turn():
 		return
 
 	if node is CardNode:
@@ -115,9 +113,11 @@ func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node
 
 		Debug.print_info("Trying to drop %s on %s" % [card_node, droppable_area])
 		if _equip_weapon(droppable_area, card_node):
+			Store.player_move += 1
 			return
 
 		if _attack_monster(droppable_area, card_node):
+			Store.player_move += 1
 			return
 
 		card_node.put_back()

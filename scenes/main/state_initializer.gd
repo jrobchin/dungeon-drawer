@@ -59,7 +59,7 @@ func _initial_cards() -> Array[Cards.Card]:
 
 		# TODO: BELOW THIS LINE IS CUSTOM REMOVE LATER
 		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.ACE),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TEN),
 	]
 
 

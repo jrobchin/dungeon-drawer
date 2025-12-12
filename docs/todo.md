@@ -3,7 +3,9 @@
 ## MVP
 
 - [x] Equip weapon
-- [ ] Attack with weapon
-- [ ] Health pick up
+- [x] Attack with weapon
 - [ ] Attack with hand
+- [ ] Health pick up
+- [ ] Room skipping
+- [ ] Lose condition
 - [ ] Win condition
