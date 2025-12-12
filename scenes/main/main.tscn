@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=26 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://cmhla1afgy7d4" path="res://scenes/main/main.gd" id="1_m4h2d"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://bboubiqc5e838" path="res://scenes/card_drop/card_drop.tscn" id="4_hxu8e"]
 [ext_resource type="Script" uid="uid://d1c52w5dytklh" path="res://scenes/main/card_manager.gd" id="5_6q06x"]
 [ext_resource type="Script" uid="uid://gsek84x2itc2" path="res://scenes/main/state_initializer.gd" id="5_ow5a4"]
-[ext_resource type="Script" uid="uid://bxoj101dsk5bv" path="res://scenes/main/state_manager.gd" id="6_a8run"]
 [ext_resource type="Script" uid="uid://c6gad06eadfd8" path="res://scripts/finite_state_machine/state_machine.gd" id="6_hujxm"]
 [ext_resource type="Script" uid="uid://2jg6npxy82g" path="res://scenes/main/card_tree.gd" id="6_hxu8e"]
 [ext_resource type="Script" uid="uid://c5epku0l6bade" path="res://scenes/main/discard_placeholder.gd" id="8_37hlw"]
@@ -43,7 +42,7 @@ script = ExtResource("3_s17dp")
 room = NodePath("../Room")
 card_manager = NodePath("../CardManager")
 state_initializer = NodePath("../StateInitializer")
-state_manager = NodePath("../StateManager")
+state_manager = NodePath("")
 drawDeck = NodePath("../DrawDeck")
 game_state_machine = NodePath("../GameStateMachine")
 
@@ -144,14 +143,11 @@ script = ExtResource("5_ow5a4")
 draw_deck = NodePath("../DrawDeck")
 discard_deck = NodePath("../DiscardDeck")
 room = NodePath("../Room")
-state_manager = NodePath("../StateManager")
+state_manager = NodePath("")
 card_tree = NodePath("../CardTree")
 game_state_machine = NodePath("../GameStateMachine")
 weapon_card_drop = NodePath("../WeaponCardDrop")
 hand_card_drop = NodePath("../HandCardDrop")
-
-[node name="StateManager" type="Node" parent="."]
-script = ExtResource("6_a8run")
 
 [node name="GameStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("6_hujxm")
@@ -167,14 +163,15 @@ card_manager = NodePath("../../CardManager")
 
 [node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("state_manager", "room", "card_tree")]
 script = ExtResource("10_ouso4")
-state_manager = NodePath("../../StateManager")
+state_manager = NodePath("")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
 
-[node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
+[node name="WeaponAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room", "state_manager")]
 script = ExtResource("14_r4lks")
 discard_deck = NodePath("../../../DiscardDeck")
 room = NodePath("../../../Room")
+state_manager = NodePath("")
 
 [node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_th5th")
@@ -230,6 +227,4 @@ volume_db = -12.0
 [connection signal="set_room_not_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_not_draggable"]
 [connection signal="shuffle_deck" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_shuffle_deck"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
-[connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthLabel" method="_on_state_manager_player_health_changed"]
-[connection signal="player_health_changed" from="StateManager" to="Gui/Health/HealthIcon" method="_on_state_manager_player_health_changed"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]

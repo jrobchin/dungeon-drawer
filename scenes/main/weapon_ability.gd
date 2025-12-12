@@ -5,6 +5,8 @@ const CARD_PLACEMENT_OFFSET = 10
 @export var discard_deck: Deck
 @export var room: Room
 
+@onready var player_turn: PlayerTurn = get_parent() as PlayerTurn
+
 
 func _equip_weapon(card_drop: CardDrop, card_node: CardNode) -> bool:
 	Debug.print_info("Trying to equip %s on %s" % [card_node, card_drop])
@@ -70,7 +72,11 @@ func _attack_monster(card_drop: CardDrop, card_node: CardNode) -> bool:
 		Debug.print_info("Did not attack since the last monster defeated has a lower rank")
 		return false
 
-	Debug.print_info("Attacking monster")
+	# Calculate and apply damage to health
+	var damage = max(card_node.card.rank - equipped_weapon.card.rank, 0)
+	Store.player_health = max(Store.player_health - damage, 0)
+
+	Debug.print_info("Attacked monster and took %s damage" % damage)
 
 	# Add card to the weapon stack
 	room.remove_card(card_node)
@@ -101,6 +107,9 @@ func _calculate_card_position(card_drop: CardDrop) -> Vector2:
 
 
 func _on_weapon_card_drop_node_dropped(droppable_area: DroppableArea, node: Node2D) -> void:
+	if !player_turn.is_active:
+		return
+
 	if node is CardNode:
 		var card_node = node as CardNode
 

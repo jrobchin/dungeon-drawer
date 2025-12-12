@@ -3,7 +3,6 @@ extends Node
 @export var room: Room
 @export var card_manager: CardManager
 @export var state_initializer: StateInitializer
-@export var state_manager: StateManager
 @export var drawDeck: Deck
 @export var game_state_machine: StateMachine
 
@@ -17,7 +16,7 @@ func _on_debug_gui_reset() -> void:
 
 
 func _on_debug_gui_health_changed(value: int) -> void:
-	state_manager.player_health = value
+	Store.player_health = value
 
 
 func _on_debug_gui_shuffle_deck() -> void:

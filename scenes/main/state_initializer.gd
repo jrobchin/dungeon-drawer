@@ -4,7 +4,6 @@ extends Node
 @export var draw_deck: Deck
 @export var discard_deck: Deck
 @export var room: Room
-@export var state_manager: StateManager
 @export var card_tree: CardTree
 @export var game_state_machine: StateMachine
 @export var weapon_card_drop: CardDrop
@@ -60,6 +59,7 @@ func _initial_cards() -> Array[Cards.Card]:
 
 		# TODO: BELOW THIS LINE IS CUSTOM REMOVE LATER
 		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.ACE),
 	]
 
 
@@ -75,4 +75,4 @@ func initialize_game_state() -> void:
 
 	card_tree.initialize()
 
-	state_manager.initialize()
+	Store.initialize()
