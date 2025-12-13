@@ -30,6 +30,7 @@ func exit() -> void:
 	is_active = false
 
 	Store.player_turn += 1
+	Store.used_health_potion = false
 
 	card_tree.set_draggable(false)
 

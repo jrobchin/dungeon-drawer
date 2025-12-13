@@ -68,7 +68,13 @@ func draw_card() -> CardNode:
 		return null
 
 	var drawn_card: Cards.Card = cards.pop_back()
-	Debug.print_info("Drew card from %s: %s of %s" % [self, Cards.Rank.keys()[drawn_card.rank], Cards.Suit.keys()[drawn_card.suit]])
+	Debug.print_info(
+		"Drew card from %s: %s of %s" % [
+			self,
+			Cards.rank_to_string(drawn_card.rank),
+			Cards.suit_to_string(drawn_card.suit),
+		],
+	)
 
 	var card_node = card_scene.instantiate() as CardNode
 	card_node.name = str(drawn_card)

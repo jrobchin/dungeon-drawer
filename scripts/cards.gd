@@ -14,7 +14,7 @@ enum Suit {
 }
 
 enum Rank {
-	TWO,
+	TWO = 2,
 	THREE,
 	FOUR,
 	FIVE,
@@ -82,6 +82,10 @@ func is_weapon(card: Card):
 
 func is_monster(card: Card):
 	return card.suit == Suit.SPADES or card.suit == Suit.CLUBS
+
+
+func is_health_potion(card: Card):
+	return card.suit == Suit.HEARTS
 
 
 class Card:

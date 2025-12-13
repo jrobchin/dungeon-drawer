@@ -25,6 +25,10 @@ func _update_values() -> void:
 	else:
 		values["Store.dragging_node.name"] = Store.dragging_node.name
 
+	values["Store.player_turn"] = Store.player_turn
+	values["Store.player_move"] = Store.player_move
+
+	# Build values string
 	var value_text: String = ""
 	for key in values:
 		value_text += "%s: %s\n" % [key, values[key]]

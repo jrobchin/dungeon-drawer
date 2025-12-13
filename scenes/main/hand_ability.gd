@@ -30,6 +30,32 @@ func _attack_monster(card_node: CardNode) -> bool:
 	return true
 
 
+func _use_health_potion(card_node: CardNode) -> bool:
+	Debug.print_info("[%s] Trying to use health potion %s" % [self, card_node])
+
+	# Card must come from the room
+	if card_node.status != Cards.STATUS.ROOM:
+		Debug.print_info("[%s] Did not use health potion since the card is not in the room" % self)
+		return false
+
+	# Card must be a health potion
+	if !Cards.is_health_potion(card_node.card):
+		Debug.print_info("[%s] Did not use health potion since the card is not a health potion" % self)
+		return false
+
+	# Calculate and apply health increase
+	var health_increase = card_node.card.rank
+	Store.player_health = min(Store.player_health + health_increase, Settings.max_player_health)
+
+	Debug.print_info("[%s] Used health potion and increased health by %s" % [self, health_increase])
+
+	# Discard card
+	room.remove_card(card_node)
+	discard_deck.add_card(card_node)
+
+	return true
+
+
 func _on_hand_card_drop_node_dropped(droppable_area: DroppableArea, node: Node2D) -> void:
 	if !is_players_turn():
 		return
@@ -40,6 +66,11 @@ func _on_hand_card_drop_node_dropped(droppable_area: DroppableArea, node: Node2D
 		Debug.print_info("[%s] Trying to drop %s on %s" % [self, card_node, droppable_area])
 
 		if _attack_monster(card_node):
+			Store.player_move += 1
+			return
+
+		if _use_health_potion(card_node):
+			Store.player_move += 1
 			return
 
 		card_node.put_back()
