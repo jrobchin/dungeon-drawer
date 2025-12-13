@@ -42,8 +42,12 @@ func set_draggable(value: bool):
 			card_node.draggable = value
 
 
-func get_cards() -> Array[CardNode]:
+func get_card_nodes() -> Array[CardNode]:
 	return card_nodes.filter(func(card_node): return card_node != null)
+
+
+func is_empty() -> bool:
+	return get_card_nodes().size() > 0
 
 
 func initialize() -> void:

@@ -12,6 +12,7 @@ func _ready() -> void:
 
 	Store.player_turn_changed.connect(_on_player_turn_changed)
 	Store.last_skipped_changed.connect(_on_last_skipped_changed)
+	Store.player_move_changed.connect(_on_player_move_changed)
 
 
 func _skip_room() -> bool:
@@ -23,10 +24,6 @@ func _skip_room() -> bool:
 			Store.player_turn - Store.last_skipped,
 		],
 	)
-
-	# Player cannot skip if they've already made a move this turn.
-	if Store.player_move > 0:
-		return false
 
 	if !_can_skip():
 		return false
@@ -42,7 +39,7 @@ func _skip_room() -> bool:
 
 func _put_room_cards_in_deck() -> void:
 	Debug.print_info("[%s] Putting room cards in deck" % self)
-	var room_cards = room.get_cards()
+	var room_cards = room.get_card_nodes()
 	room.initialize()
 
 	for card in room_cards:
@@ -57,9 +54,9 @@ func _on_skip_button_up() -> void:
 		return
 
 
-## Last skip must have been two turns away.
+## Must be the first move and the last skip must have been two turns away.
 func _can_skip() -> bool:
-	return Store.player_turn - Store.last_skipped > 1
+	return Store.player_move == 0 and Store.player_turn - Store.last_skipped > 1
 
 
 func _on_last_skipped_changed(_value: int):
@@ -67,6 +64,10 @@ func _on_last_skipped_changed(_value: int):
 
 
 func _on_player_turn_changed(_value: int):
+	_update_can_skip()
+
+
+func _on_player_move_changed(_value: int):
 	_update_can_skip()
 
 

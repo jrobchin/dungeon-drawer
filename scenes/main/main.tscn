@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=32 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://cmhla1afgy7d4" path="res://scenes/main/main.gd" id="1_m4h2d"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
 [ext_resource type="Script" uid="uid://b7ein7xm50q7a" path="res://scenes/main/hand_ability.gd" id="20_37hlw"]
 [ext_resource type="Script" uid="uid://cxdyny3kfe6at" path="res://scenes/main/skip_ability.gd" id="21_6llfj"]
+[ext_resource type="PackedScene" uid="uid://cbgplen1bi8y2" path="res://scenes/game_complete_overlay/game_complete_overlay.tscn" id="27_0bhws"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6llfj"]
 size = Vector2(46, 62)
@@ -153,6 +154,7 @@ weapon_card_drop = NodePath("../WeaponCardDrop")
 hand_card_drop = NodePath("../HandCardDrop")
 
 [node name="GameStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+unique_name_in_owner = true
 script = ExtResource("6_hujxm")
 initial_state = NodePath("Initializing")
 
@@ -164,10 +166,11 @@ state_initializer = NodePath("../../StateInitializer")
 script = ExtResource("8_b1x3f")
 card_manager = NodePath("../../CardManager")
 
-[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("room", "card_tree")]
+[node name="PlayerTurn" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("room", "card_tree", "draw_deck")]
 script = ExtResource("10_ouso4")
 room = NodePath("../../Room")
 card_tree = NodePath("../../CardTree")
+draw_deck = NodePath("../../DrawDeck")
 
 [node name="HandAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("discard_deck", "room")]
 script = ExtResource("20_37hlw")
@@ -245,6 +248,9 @@ script = ExtResource("17_nvumn")
 stream = ExtResource("13_7smn1")
 volume_db = -12.0
 
+[node name="GameCompleteOverlay" parent="." instance=ExtResource("27_0bhws")]
+visible = false
+
 [connection signal="deal_cards" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_deal_cards"]
 [connection signal="health_changed" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_health_changed"]
 [connection signal="reset" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_reset"]
@@ -256,6 +262,7 @@ volume_db = -12.0
 [connection signal="card_nodes_changed" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_card_nodes_changed"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
 [connection signal="node_dropped" from="HandCardDrop" to="GameStateMachine/PlayerTurn/HandAbility" method="_on_hand_card_drop_node_dropped"]
+[connection signal="game_complete" from="GameStateMachine/PlayerTurn" to="GameCompleteOverlay" method="_on_player_turn_game_complete"]
 [connection signal="skipped_room" from="GameStateMachine/PlayerTurn/SkipAbility" to="GameStateMachine/PlayerTurn" method="_on_skip_ability_skipped_room"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]
 [connection signal="button_up" from="Gui/Skip" to="GameStateMachine/PlayerTurn/SkipAbility" method="_on_skip_button_up"]

@@ -7,6 +7,10 @@ enum MOVES {
 
 @export var room: Room
 @export var card_tree: CardTree
+@export var draw_deck: Deck
+
+## Emitted when the game finishes.
+signal game_complete(win: bool, points: int)
 
 var is_active: bool = false
 
@@ -33,15 +37,34 @@ func exit() -> void:
 	card_tree.set_draggable(false)
 
 
+func _calculate_loss_points() -> int:
+	var points = 0
+	for card in draw_deck.cards:
+		if Cards.is_monster(card):
+			points -= card.rank
+
+	for card_node in room.get_card_nodes():
+		if Cards.is_monster(card_node.card):
+			points -= card_node.card.rank
+
+	return points
+
+
+func _calculate_win_points() -> int:
+	return Store.player_health
+
+
 func _on_player_health_changed(value: int):
-	print("PLAYER_HEALTH CHANGES ", value)
 	if value == 0:
-		push_error("Losing not implemented yet!")
+		game_complete.emit(false, _calculate_loss_points())
 
 
 func _on_player_move_changed(value: int):
+	if room.is_empty() and draw_deck.cards.size() == 0:
+		game_complete.emit(true, _calculate_win_points())
+
 	if value >= Settings.total_player_moves:
-		Debug.print_info("Player move ended")
+		Debug.print_info("Player turn ended")
 		finished.emit(GameState.DEALING_ROOM)
 
 
