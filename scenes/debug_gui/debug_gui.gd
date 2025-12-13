@@ -27,6 +27,8 @@ func _update_values() -> void:
 
 	values["Store.player_turn"] = Store.player_turn
 	values["Store.player_move"] = Store.player_move
+	values["Store.last_skipped"] = Store.last_skipped
+	values["Store.used_health_potion"] = Store.used_health_potion
 
 	# Build values string
 	var value_text: String = ""
@@ -65,3 +67,11 @@ func _on_set_room_not_draggable_button_up() -> void:
 
 func _on_toggle_hide_cards_button_up() -> void:
 	toggle_hide_cards.emit()
+
+
+func _on_draw_deck_cards_changed(deck: Deck) -> void:
+	var deck_text = ""
+	for i in range(deck.cards.size()):
+		deck_text += "%d: %s\n" % [i, deck.cards[i]]
+
+	%DeckLabel.text = deck_text

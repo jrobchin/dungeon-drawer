@@ -20,17 +20,15 @@ func enter(_previous_state_path: String, _data := { }) -> void:
 	is_active = true
 
 	Store.player_move = 0
+	Store.used_health_potion = false
 
 	room.set_draggable(true)
-
-	# TODO: set other areas to be draggable
 
 
 func exit() -> void:
 	is_active = false
 
 	Store.player_turn += 1
-	Store.used_health_potion = false
 
 	card_tree.set_draggable(false)
 
@@ -44,3 +42,7 @@ func _on_player_move_changed(value: int):
 	if value >= Settings.total_player_moves:
 		Debug.print_info("Player move ended")
 		finished.emit(GameState.DEALING_ROOM)
+
+
+func _on_skip_ability_skipped_room() -> void:
+	finished.emit(GameState.DEALING_ROOM)

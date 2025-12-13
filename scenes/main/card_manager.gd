@@ -4,7 +4,6 @@ extends Node
 @export var deck: Deck
 @export var room: Room
 @export var card_tree: CardTree
-@export var deck_marker: Marker2D
 @export var deck_draw_player: AudioStreamPlayer
 @export var card_place_player: AudioStreamPlayer
 
@@ -35,9 +34,9 @@ func deal_card() -> bool:
 	if not add_card_result.success:
 		Debug.print_info("Failed to add card_node to room")
 		return false
-		
+
 	card_tree.add_child(card_node)
-	card_node.global_position = deck_marker.global_position
+	card_node.global_position = deck.global_position
 
 	# Connect bring-to-front signal
 	card_node.bring_to_front_requested.connect(_on_card_bring_to_front)

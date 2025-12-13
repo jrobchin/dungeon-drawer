@@ -4,6 +4,10 @@ extends PlayerAbility
 @export var room: Room
 
 
+func _ready() -> void:
+	super._ready()
+
+
 func _attack_monster(card_node: CardNode) -> bool:
 	Debug.print_info("[%s] Trying to attack %s" % [self, card_node])
 
@@ -43,9 +47,17 @@ func _use_health_potion(card_node: CardNode) -> bool:
 		Debug.print_info("[%s] Did not use health potion since the card is not a health potion" % self)
 		return false
 
+	# A health potion can only be used once per turn. Otherwise it's just discarded.
+	if Store.used_health_potion:
+		# Discard card
+		room.remove_card(card_node)
+		discard_deck.add_card(card_node)
+		return true
+
 	# Calculate and apply health increase
 	var health_increase = card_node.card.rank
 	Store.player_health = min(Store.player_health + health_increase, Settings.max_player_health)
+	Store.used_health_potion = true
 
 	Debug.print_info("[%s] Used health potion and increased health by %s" % [self, health_increase])
 

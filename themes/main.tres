@@ -4,3 +4,4 @@
 
 [resource]
 default_font = ExtResource("1_0avsd")
+Button/colors/font_color = Color(1, 1, 1, 1)

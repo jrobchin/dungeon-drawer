@@ -24,6 +24,14 @@ signal player_health_changed(value: int)
 		player_health = value
 		player_health_changed.emit(value)
 
+signal last_skipped_changed(value: int)
+
+## Tracks the turn that the player last skipped on.
+var last_skipped: int = -2:
+	set(value):
+		last_skipped = value
+		last_skipped_changed.emit(value)
+
 ## Tracks if the player has used a health potion this turn.
 var used_health_potion: bool = false
 
@@ -38,6 +46,10 @@ func initialize() -> void:
 	player_turn = 0
 	player_move = 0
 	player_health = Settings.max_player_health
+
+	last_skipped = -2
+
+	used_health_potion = false
 
 	is_dragging = false
 	dragging_node = null

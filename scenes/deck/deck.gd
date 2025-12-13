@@ -85,6 +85,29 @@ func draw_card() -> CardNode:
 	return card_node
 
 
+## Adds card to the bottom of the deck.
+func add_card_to_bottom(card_node: CardNode):
+	cards.push_front(card_node.card)
+	Debug.print_info("Added card to bottom %s: %s" % [self, card_node.card])
+
+	var tween := create_tween()
+
+	var target_position := global_position
+
+	tween.tween_property(
+		card_node,
+		"global_position",
+		target_position,
+		0.25,
+	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+
+	await tween.finished
+
+	card_node.queue_free()
+
+	_cards_changed()
+
+
 ## Adds card to deck. Since decks do not need nodes, cards added to the deck are freed.
 func add_card(card_node: CardNode) -> void:
 	cards.append(card_node.card)

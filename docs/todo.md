@@ -6,6 +6,6 @@
 - [x] Attack with weapon
 - [x] Attack with hand
 - [x] Health pick up
-- [ ] Room skipping
+- [x] Room skipping
 - [ ] Lose condition
 - [ ] Win condition

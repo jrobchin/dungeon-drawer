@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://155xx7s6y6ta"]
+[gd_scene load_steps=31 format=3 uid="uid://155xx7s6y6ta"]
 
 [ext_resource type="Texture2D" uid="uid://bqopnmngqe0fk" path="res://assets/cards.png" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://cmhla1afgy7d4" path="res://scenes/main/main.gd" id="1_m4h2d"]
@@ -25,12 +25,17 @@
 [ext_resource type="Script" uid="uid://b306wawemnmbu" path="res://scenes/main/health_label.gd" id="16_necax"]
 [ext_resource type="Script" uid="uid://bonjlwgtxp4ei" path="res://scenes/main/health_icon.gd" id="17_nvumn"]
 [ext_resource type="Script" uid="uid://b7ein7xm50q7a" path="res://scenes/main/hand_ability.gd" id="20_37hlw"]
+[ext_resource type="Script" uid="uid://cxdyny3kfe6at" path="res://scenes/main/skip_ability.gd" id="21_6llfj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6llfj"]
 size = Vector2(46, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_37hlw"]
 size = Vector2(46, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37hlw"]
+atlas = ExtResource("4_7smn1")
+region = Rect2(0, 48, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_necax"]
 font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
@@ -57,7 +62,7 @@ card_tree = NodePath("../CardTree")
 oversampling_override = 1.0
 title = "Debug"
 position = Vector2i(600, 36)
-size = Vector2i(1000, 1000)
+size = Vector2i(2000, 1500)
 visible = false
 script = ExtResource("1_pg34l")
 
@@ -101,25 +106,11 @@ region_enabled = true
 region_rect = Rect2(144, 256, 48, 64)
 script = ExtResource("8_37hlw")
 
-[node name="CardMarkers" type="Node2D" parent="."]
-
-[node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(144, 106)
-
-[node name="WeaponCardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(288, 194)
-
-[node name="HandPlaceholder" type="Marker2D" parent="CardMarkers"]
-position = Vector2(352, 194)
-
-[node name="DiscardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(496, 114)
-
 [node name="Room" parent="." instance=ExtResource("2_6q06x")]
 position = Vector2(320, 114)
 
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(288, 194)
+position = Vector2(288, 221)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCardDrop"]
 shape = SubResource("RectangleShape2D_6llfj")
@@ -130,7 +121,7 @@ region_enabled = true
 region_rect = Rect2(16, 16, 16, 16)
 
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(352, 194)
+position = Vector2(352, 221)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HandCardDrop"]
 shape = SubResource("RectangleShape2D_37hlw")
@@ -143,12 +134,11 @@ region_rect = Rect2(16, 32, 16, 16)
 [node name="CardTree" type="Node2D" parent="."]
 script = ExtResource("6_hxu8e")
 
-[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "deck_marker", "deck_draw_player", "card_place_player")]
+[node name="CardManager" type="Node" parent="." node_paths=PackedStringArray("deck", "room", "card_tree", "deck_draw_player", "card_place_player")]
 script = ExtResource("5_6q06x")
 deck = NodePath("../DrawDeck")
 room = NodePath("../Room")
 card_tree = NodePath("../CardTree")
-deck_marker = NodePath("../CardMarkers/DeckMarker")
 deck_draw_player = NodePath("../DeckDrawStreamPlayer")
 card_place_player = NodePath("../CardPlaceStreamPlayer")
 
@@ -189,6 +179,12 @@ script = ExtResource("14_r4lks")
 discard_deck = NodePath("../../../DiscardDeck")
 room = NodePath("../../../Room")
 
+[node name="SkipAbility" type="Node" parent="GameStateMachine/PlayerTurn" node_paths=PackedStringArray("room", "draw_deck", "skip_button")]
+script = ExtResource("21_6llfj")
+room = NodePath("../../../Room")
+draw_deck = NodePath("../../../DrawDeck")
+skip_button = NodePath("../../../Gui/Skip")
+
 [node name="DeckDrawStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_th5th")
 volume_db = -12.0
@@ -204,6 +200,19 @@ grow_vertical = 2
 theme = ExtResource("15_ou6is")
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
+
+[node name="Skip" type="Button" parent="Gui"]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 47.0
+offset_right = 169.0
+offset_bottom = 71.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text = "Skip"
+icon = SubResource("AtlasTexture_37hlw")
 
 [node name="Health" type="Control" parent="Gui"]
 anchors_preset = 0
@@ -243,7 +252,10 @@ volume_db = -12.0
 [connection signal="set_room_not_draggable" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_set_room_not_draggable"]
 [connection signal="shuffle_deck" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_shuffle_deck"]
 [connection signal="toggle_hide_cards" from="DebugWindow/DebugGui" to="DebugActions" method="_on_debug_gui_toggle_hide_cards"]
+[connection signal="cards_changed" from="DrawDeck" to="DebugWindow/DebugGui" method="_on_draw_deck_cards_changed"]
 [connection signal="card_nodes_changed" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_card_nodes_changed"]
 [connection signal="node_dropped" from="WeaponCardDrop" to="GameStateMachine/PlayerTurn/WeaponAbility" method="_on_weapon_card_drop_node_dropped"]
 [connection signal="node_dropped" from="HandCardDrop" to="GameStateMachine/PlayerTurn/HandAbility" method="_on_hand_card_drop_node_dropped"]
+[connection signal="skipped_room" from="GameStateMachine/PlayerTurn/SkipAbility" to="GameStateMachine/PlayerTurn" method="_on_skip_ability_skipped_room"]
 [connection signal="mouse_exited" from="Gui" to="CardManager" method="_on_gui_mouse_exited"]
+[connection signal="button_up" from="Gui/Skip" to="GameStateMachine/PlayerTurn/SkipAbility" method="_on_skip_button_up"]

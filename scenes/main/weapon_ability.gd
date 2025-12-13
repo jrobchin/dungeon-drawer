@@ -1,9 +1,13 @@
 extends PlayerAbility
 
-const CARD_PLACEMENT_OFFSET = 10
+const CARD_PLACEMENT_OFFSET = 9
 
 @export var discard_deck: Deck
 @export var room: Room
+
+
+func _ready() -> void:
+	super._ready()
 
 
 func _equip_weapon(card_drop: CardDrop, card_node: CardNode) -> bool:
@@ -66,7 +70,7 @@ func _attack_monster(card_drop: CardDrop, card_node: CardNode) -> bool:
 		return false
 
 	# Can only attack monsters if the last monster attacked is a higher rank
-	if last_monster_defeated != null and last_monster_defeated.card.rank < card_node.card.rank:
+	if last_monster_defeated != null and last_monster_defeated.card.rank <= card_node.card.rank:
 		Debug.print_info("Did not attack since the last monster defeated has a lower rank")
 		return false
 
