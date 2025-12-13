@@ -42,6 +42,10 @@ func set_draggable(value: bool):
 			card_node.draggable = value
 
 
+func get_cards() -> Array[CardNode]:
+	return card_nodes.filter(func(card_node): return card_node != null)
+
+
 func initialize() -> void:
 	card_nodes = [null, null, null, null]
 	Debug.print_info("Room initialized.")

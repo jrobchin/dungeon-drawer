@@ -34,6 +34,7 @@ func exit() -> void:
 
 
 func _on_player_health_changed(value: int):
+	print("PLAYER_HEALTH CHANGES ", value)
 	if value == 0:
 		push_error("Losing not implemented yet!")
 

@@ -24,7 +24,7 @@ Store="*res://scripts/store.gd"
 
 [custom]
 
-debug/info_logs_enabled=true
+debug/info_logs_enabled=false
 debug/info_logs_stack_enabled=false
 game/max_player_health=20
 game/total_player_moves=3
