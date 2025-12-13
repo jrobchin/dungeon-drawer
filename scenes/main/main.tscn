@@ -38,8 +38,8 @@ font_color = Color(0.8745098, 0.91764706, 0.89411765, 1)
 [node name="Main" type="Node" node_paths=PackedStringArray("debug_window")]
 script = ExtResource("1_m4h2d")
 debug_window = NodePath("DebugWindow")
-metadata/_edit_horizontal_guides_ = [180.0]
-metadata/_edit_vertical_guides_ = [300.0]
+metadata/_edit_horizontal_guides_ = [180.0, 226.0]
+metadata/_edit_vertical_guides_ = [520.0, 320.0]
 
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource("2_p8abn")
@@ -79,9 +79,10 @@ grow_vertical = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 color = Color(0.15686275, 0.30588236, 0.19607843, 1)
+metadata/_edit_lock_ = true
 
 [node name="DrawDeck" parent="." instance=ExtResource("2_iuonh")]
-position = Vector2(124, 108)
+position = Vector2(144, 110)
 
 [node name="DeckPlaceholder" type="Sprite2D" parent="DrawDeck"]
 position = Vector2(0, 4)
@@ -91,7 +92,7 @@ region_rect = Rect2(144, 256, 48, 64)
 script = ExtResource("8_37hlw")
 
 [node name="DiscardDeck" parent="." instance=ExtResource("2_iuonh")]
-position = Vector2(476, 108)
+position = Vector2(496, 110)
 
 [node name="DeckPlaceholder" type="Sprite2D" parent="DiscardDeck"]
 position = Vector2(0, 4)
@@ -103,22 +104,22 @@ script = ExtResource("8_37hlw")
 [node name="CardMarkers" type="Node2D" parent="."]
 
 [node name="DeckMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(124, 104)
+position = Vector2(144, 106)
 
 [node name="WeaponCardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(268, 192)
+position = Vector2(288, 194)
 
 [node name="HandPlaceholder" type="Marker2D" parent="CardMarkers"]
-position = Vector2(332, 192)
+position = Vector2(352, 194)
 
 [node name="DiscardMarker" type="Marker2D" parent="CardMarkers"]
-position = Vector2(476, 112)
+position = Vector2(496, 114)
 
 [node name="Room" parent="." instance=ExtResource("2_6q06x")]
-position = Vector2(300, 112)
+position = Vector2(320, 114)
 
 [node name="WeaponCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(268, 192)
+position = Vector2(288, 194)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCardDrop"]
 shape = SubResource("RectangleShape2D_6llfj")
@@ -129,7 +130,7 @@ region_enabled = true
 region_rect = Rect2(16, 16, 16, 16)
 
 [node name="HandCardDrop" parent="." instance=ExtResource("4_hxu8e")]
-position = Vector2(332, 192)
+position = Vector2(352, 194)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HandCardDrop"]
 shape = SubResource("RectangleShape2D_37hlw")
@@ -206,10 +207,10 @@ metadata/_edit_lock_ = true
 
 [node name="Health" type="Control" parent="Gui"]
 anchors_preset = 0
-offset_left = 379.0
-offset_top = 210.0
-offset_right = 440.0
-offset_bottom = 230.0
+offset_left = 460.0
+offset_top = 208.0
+offset_right = 521.0
+offset_bottom = 228.0
 
 [node name="HealthLabel" type="Label" parent="Gui/Health"]
 layout_mode = 0

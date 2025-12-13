@@ -9,7 +9,7 @@
 size = Vector2(44, 60)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g65cd"]
-radius = 2.828427
+radius = 4.0
 
 [node name="CardNode" type="Node2D"]
 script = ExtResource("1_vtcvk")

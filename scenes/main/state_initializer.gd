@@ -66,10 +66,11 @@ func _initial_cards() -> Array[Cards.Card]:
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.TEN),
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.JACK),
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.QUEEN),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.FOUR),
 		Cards.Card.new(Cards.Suit.HEARTS, Cards.Rank.SIX),
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.KING),
-		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.TWO),
+		Cards.Card.new(Cards.Suit.DIAMONDS, Cards.Rank.EIGHT),
 		Cards.Card.new(Cards.Suit.SPADES, Cards.Rank.THREE),
 	]
 

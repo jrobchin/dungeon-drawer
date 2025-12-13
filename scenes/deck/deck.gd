@@ -90,6 +90,19 @@ func add_card(card_node: CardNode) -> void:
 	cards.append(card_node.card)
 	Debug.print_info("Added card %s: %s" % [self, card_node.card])
 
+	var tween := create_tween()
+
+	var target_position := global_position
+
+	tween.tween_property(
+		card_node,
+		"global_position",
+		target_position,
+		0.25,
+	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+
+	await tween.finished
+
 	card_node.queue_free()
 
 	_cards_changed()
