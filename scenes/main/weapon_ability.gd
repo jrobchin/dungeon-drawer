@@ -23,13 +23,15 @@ func _equip_weapon(card_drop: CardDrop, card_node: CardNode) -> bool:
 		Debug.print_info("Did not equip since the card is not a diamond")
 		return false
 
+	# Remove card from the room
+	room.remove_card(card_node)
+
 	Debug.print_info("Equipping weapon")
 	# Clear out the current weapon slot
 	if card_drop.card_nodes.size() > 0:
 		_discard_weapon(card_drop)
 
 	# Move the card and lock it
-	room.remove_card(card_node)
 	card_drop.add_card(card_node)
 	card_node.global_position = card_drop.global_position
 	card_node.draggable = false

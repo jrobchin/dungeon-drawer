@@ -21,15 +21,15 @@ func _attack_monster(card_node: CardNode) -> bool:
 		Debug.print_info("[%s] Did not attack since the card is not a monster" % self)
 		return false
 
+	# Discard card
+	room.remove_card(card_node)
+	discard_deck.add_card(card_node)
+
 	# Calculate and apply damage to health
 	var damage = card_node.card.rank
 	Store.player_health = max(Store.player_health - damage, 0)
 
 	Debug.print_info("[%s] Attacked monster and took %s damage" % [self, damage])
-
-	# Discard card
-	room.remove_card(card_node)
-	discard_deck.add_card(card_node)
 
 	return true
 
@@ -54,16 +54,16 @@ func _use_health_potion(card_node: CardNode) -> bool:
 		discard_deck.add_card(card_node)
 		return true
 
+	# Discard card
+	room.remove_card(card_node)
+	discard_deck.add_card(card_node)
+
 	# Calculate and apply health increase
 	var health_increase = card_node.card.rank
 	Store.player_health = min(Store.player_health + health_increase, Settings.max_player_health)
 	Store.used_health_potion = true
 
 	Debug.print_info("[%s] Used health potion and increased health by %s" % [self, health_increase])
-
-	# Discard card
-	room.remove_card(card_node)
-	discard_deck.add_card(card_node)
 
 	return true
 
