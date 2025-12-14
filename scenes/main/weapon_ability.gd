@@ -74,18 +74,18 @@ func _attack_monster(card_drop: CardDrop, card_node: CardNode) -> bool:
 		Debug.print_info("Did not attack since the last monster defeated has a lower rank")
 		return false
 
-	# Calculate and apply damage to health
-	var damage = max(card_node.card.rank - equipped_weapon.card.rank, 0)
-	Store.player_health = max(Store.player_health - damage, 0)
-
-	Debug.print_info("Attacked monster and took %s damage" % damage)
-
 	# Add card to the weapon stack
 	room.remove_card(card_node)
 	card_drop.add_card(card_node)
 	card_node.global_position = _calculate_card_position(card_drop)
 	card_node.draggable = false
 	card_node.status = Cards.STATUS.DEFEATED_MONSTER
+
+	# Calculate and apply damage to health
+	var damage = max(card_node.card.rank - equipped_weapon.card.rank, 0)
+	Store.player_health = max(Store.player_health - damage, 0)
+
+	Debug.print_info("Attacked monster and took %s damage" % damage)
 
 	return true
 
